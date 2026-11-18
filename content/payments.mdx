@@ -1,12 +1,13 @@
 ---
 description: "Take payments for your Frappe app as SaaS: how Frappe SaaS handles Razorpay test-mode checkout, webhooks and billing, with links to the gateway contract."
 ---
+import { Callout } from 'nextra/components'
+
 # Payments
 
 `saas_core` takes payment through a **Gateway Account**. Razorpay in `order` checkout mode is the verified gateway; Stripe and Razorpay subscription mode are experimental.
 
-> [!WARNING]
-> Use **test-mode keys only** (`rzp_test_*`) while the kit is alpha. Live keys are refused by the deployment guide.
+<Callout type="warning">Use **test-mode keys only** (`rzp_test_*`) while the kit is alpha. Live keys are refused by the deployment guide.</Callout>
 
 ## Overview
 

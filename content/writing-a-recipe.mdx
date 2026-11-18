@@ -1,6 +1,8 @@
 ---
 description: "How to make your Frappe app launchable as SaaS with Frappe SaaS: a recipe class plus a template, golden backup and hooks that saas_core provisions per customer."
 ---
+import { Callout } from 'nextra/components'
+
 # Writing a recipe
 
 A **recipe** is the extension point that turns your Frappe app into something `saas_core` can provision for each customer. It has two parts.
@@ -27,8 +29,7 @@ Registered through the Python entry-point group `saas_core.recipes`. The class h
 
 Name the Template's `recipe` field after the recipe `slug`. Lookup is `saas_core.recipes.registry.get(slug)`.
 
-> [!WARNING]
-> There is no skeleton or `pyproject.toml` example upstream yet, and installing a recipe package into the bench environment is **untested** here. Read the contract in [saas_core ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/ARCHITECTURE.md) and adapt.
+<Callout type="warning">There is no skeleton or `pyproject.toml` example upstream yet, and installing a recipe package into the bench environment is **untested** here. Read the contract in [saas_core ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/ARCHITECTURE.md) and adapt.</Callout>
 
 ---
 

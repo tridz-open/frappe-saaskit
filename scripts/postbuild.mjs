@@ -7,6 +7,7 @@ const logosMd = `Used by: [Tridz](https://tridz.com), [URY](https://ury.app), [H
 function toPlain(src) {
   return src
     .replace(/^import .*\n/gm, '')
+    .replace(/<Callout type="(\w+)">([\s\S]*?)<\/Callout>/g, (_, k, b) => `> **${k === 'warning' ? 'Warning' : 'Note'}:** ${b}`)
     .replace(/<Logos \/>/g, logosMd)
     .replace(/<Shot name="([^"]+)" alt="([^"]+)"[^>]*\/>/g, (_, n, a) => `![${a}](${SITE}/screens/${n}.webp)`)
     .replace(/<Gallery items=\{\[([\s\S]*?)\]\} \/>/g, (_, items) =>

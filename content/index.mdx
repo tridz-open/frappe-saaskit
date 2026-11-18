@@ -1,6 +1,7 @@
 ---
 description: "Frappe SaaS lets you launch your Frappe app as SaaS on Frappe Cloud. Three open-source alpha repos cover signup, billing, tenant provisioning and a customer console."
 ---
+import { Callout } from 'nextra/components'
 
 import { Gallery, Shot } from '../app/_components/Shot'
 import { Logos } from '../app/_components/Logos'
@@ -9,8 +10,7 @@ import { Logos } from '../app/_components/Logos'
 
 Launch your Frappe app as SaaS on [Frappe Cloud](https://frappecloud.com): customers sign up, pay, and each gets their own isolated Frappe site, created automatically.
 
-> [!WARNING]
-> All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/versions)), use test-mode payment keys only, and try everything on throwaway sites first.
+<Callout type="warning">All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/versions)), use test-mode payment keys only, and try everything on throwaway sites first.</Callout>
 
 **Who it is for:** teams that build a Frappe or ERPNext app and want to sell it as a subscription product, with one site per customer. If you only host a couple of sites by hand, you do not need this. It is used in production by one product (see [Used by](/used-by)).
 
@@ -49,8 +49,7 @@ Your app reaches customers as a *recipe* that `saas_core` provisions per tenant.
 - Want to see it run on your machine? [Local demo](/local-demo).
 - Using a coding agent? [Agents](/agents).
 
-> [!NOTE]
-> Not affiliated with or endorsed by Frappe Technologies. "Frappe" and "Frappe Cloud" are their trademarks.
+<Callout type="info">Not affiliated with or endorsed by Frappe Technologies. "Frappe" and "Frappe Cloud" are their trademarks.</Callout>
 
 ---
 
