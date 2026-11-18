@@ -7,7 +7,7 @@ A demo-mode stack on your machine. **No real Frappe Cloud is contacted** and onl
 
 <Callout type="warning">Each step is tagged **tested** (run during an audit) or **untested** (written from the READMEs, may need adjusting). Report problems as issues.</Callout>
 
-Use the tags from [Versions](/versions). Demo clones below use `saas_core v0.1.0-alpha.2`; `v0.1.0-alpha.3` (with the SDK) is also released.
+Use the tags from [Versions](/status/versions/). Demo clones below use `saas_core v0.1.0-alpha.2`; `v0.1.0-alpha.3` (with the SDK) is also released.
 
 ## 1. Clone, pinned (tested as clones)
 
@@ -67,7 +67,7 @@ curl -s "http://saas.localhost:8000/api/method/saas_core.api.v1.plans.list?curre
 
 ## 6. Payments (optional, untested)
 
-See [Payments](/payments). Test keys (`rzp_test_*`) only; a webhook needs a public tunnel.
+See [Payments](/guides/payments/). Test keys (`rzp_test_*`) only; a webhook needs a public tunnel.
 
 ## 7. Starter, fixture mode (tested)
 
@@ -92,6 +92,4 @@ Expected (untested): the pricing page shows your plan, signup creates a user, an
 
 A newer starter tag will take the SDK from its release tarballs.
 
----
-
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+<AlphaFooter repo="saas_core" />

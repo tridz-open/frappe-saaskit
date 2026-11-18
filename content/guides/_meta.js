@@ -1,0 +1,1 @@
+export default { 'local-demo': 'Local demo', 'writing-a-recipe': 'Writing a recipe', payments: 'Payments (test mode)', 'adding-a-gateway': 'Adding a gateway', deploy: 'Deploying to Frappe Cloud', fcctl: 'Using fcctl on its own', sdk: 'Building on the SDK' }

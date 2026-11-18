@@ -1,12 +1,21 @@
 ---
-description: "Copy-paste prompt for a coding agent to set up Frappe SaaS locally in demo mode, plus how to point agents at these docs."
+title: Agents
+description: "Point a coding agent at Frappe SaaS: llms.txt, raw Markdown for every page, and a copy-paste prompt that sets up a local demo on test keys and fake infrastructure."
 ---
+
 # Agents
+
+<p className="lede">Every page is plain Markdown too, and the setup prompt keeps an agent on test keys and fake infrastructure.</p>
+
+<Cards num={2}>
+  <Cards.Card title="llms.txt" href="/llms.txt" icon={<Icon name="FileText" />}>One index of every page, grouped by section. llms-full.txt has them all in one file.</Cards.Card>
+  <Cards.Card title="Raw Markdown" href="/architecture.md" icon={<Icon name="BookOpen" />}>Add .md to any page path. "Copy page" on each page copies the same Markdown.</Cards.Card>
+</Cards>
 
 ## Point an agent at these docs
 
-- Give it <https://frappesaas.tridz.in/llms.txt>.
-- Every page is also raw Markdown: add `.md` to the page name, for example <https://frappesaas.tridz.in/architecture.md>.
+- Give it [https://frappesaas.tridz.in/llms.txt](/llms.txt).
+- Every page is also raw Markdown: add `.md` to the page name, for example [architecture.md](/architecture.md).
 - For SDK questions tell it to read `saas_core/sdk` and its releases, never the archived SDK repo.
 
 ## Setup prompt
@@ -129,7 +138,4 @@ Print: the tags checked out, which checkpoints passed, which steps were skipped 
 SDK-related questions: look in `saas_core/sdk` and its releases, never the archived frappe-saaskit-sdk repo.
 ````
 
-
----
-
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+<AlphaFooter repo="saas_core" />

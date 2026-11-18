@@ -36,7 +36,7 @@ export default async function RootLayout({ children }) {
           navbar={navbar}
           footer={footer}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/tridz-open/frappe-saaskit/tree/main/content"
+          docsRepositoryBase="https://github.com/tridz-open/frappe-saaskit/tree/main"
           editLink="Edit on GitHub"
         >
           {children}

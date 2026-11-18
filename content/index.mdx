@@ -5,9 +5,9 @@ description: "Frappe SaaS lets you launch your Frappe app as SaaS on Frappe Clou
 
 Launch your Frappe app as SaaS on [Frappe Cloud](https://frappecloud.com): customers sign up, pay, and each gets their own isolated Frappe site, created automatically.
 
-<Callout type="warning">All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/versions)), use test-mode payment keys only, and try everything on throwaway sites first.</Callout>
+<Callout type="warning">All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/status/versions/)), use test-mode payment keys only, and try everything on throwaway sites first.</Callout>
 
-**Who it is for:** teams that build a Frappe or ERPNext app and want to sell it as a subscription product, with one site per customer. If you only host a couple of sites by hand, you do not need this. It is used in production by one product (see [Used by](/used-by)).
+**Who it is for:** teams that build a Frappe or ERPNext app and want to sell it as a subscription product, with one site per customer. If you only host a couple of sites by hand, you do not need this. It is used in production by one product (see [Used by](/used-by/)).
 
 <Shot name="landing" alt="Frappe SaaS starter landing page for a Frappe app sold as SaaS" caption="The starter's landing page, in fixture mode." />
 
@@ -23,7 +23,7 @@ Launch your Frappe app as SaaS on [Frappe Cloud](https://frappecloud.com): custo
 
 `browser -> starter + SDK -> saas_core -> fcctl -> Frappe Cloud`
 
-Your app reaches customers as a *recipe* that `saas_core` provisions per tenant. Details: [Architecture](/architecture).
+Your app reaches customers as a *recipe* that `saas_core` provisions per tenant. Details: [Architecture](/architecture/).
 
 ## What customers see
 
@@ -40,12 +40,10 @@ Your app reaches customers as a *recipe* that `saas_core` provisions per tenant.
 
 ## Where next
 
-- Not sure where to begin? [Getting started](/getting-started).
-- Want to see it run on your machine? [Local demo](/local-demo).
-- Using a coding agent? [Agents](/agents).
+- Not sure where to begin? [Getting started](/getting-started/).
+- Want to see it run on your machine? [Local demo](/guides/local-demo/).
+- Using a coding agent? [Agents](/agents/).
 
 <Callout type="info">Not affiliated with or endorsed by Frappe Technologies. "Frappe" and "Frappe Cloud" are their trademarks.</Callout>
 
----
-
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on frappe-saaskit](https://github.com/tridz-open/frappe-saaskit/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+<AlphaFooter repo="saas_core" />

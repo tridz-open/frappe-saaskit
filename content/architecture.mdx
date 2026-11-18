@@ -15,7 +15,7 @@ browser -> starter + SDK -> saas_core (HTTP API, webhooks) -> fcctl -> Frappe Cl
 - **Pay then provision:** checkout creates a pending Tenant; the gateway callback or webhook is stored once as a Payment Event; the processor activates the Subscription; the first success enqueues a `provision` job that drives `fcctl` and emails the owner a one-time setup link. Jobs are auditable and resume-safe.
 - **`fcctl`** is the only thing that talks to Frappe Cloud. It restores a golden backup into a new site, runs hooks and health checks.
 - **Tenant sites** are separate Frappe sites, one per customer, created on Frappe Cloud.
-- **Recipes** are how your own app plugs in. See [Writing a recipe](/writing-a-recipe).
+- **Recipes** are how your own app plugs in. See [Writing a recipe](/guides/writing-a-recipe/).
 
 ## What the customer sees
 
@@ -34,6 +34,4 @@ browser -> starter + SDK -> saas_core (HTTP API, webhooks) -> fcctl -> Frappe Cl
 
 Authoritative diagrams and contracts: [saas_core docs/ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md).
 
----
-
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+<AlphaFooter repo="saas_core" />

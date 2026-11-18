@@ -100,8 +100,8 @@ for (const [key, val] of Object.entries(rootMeta)) {
     continue
   }
   if (key === 'index') continue
-  if (pages.has(key)) current.routes.push(key)
-  else current.routes.push(...(await folderRoutes(key)))
+  if (existsSync(join('content', key))) current.routes.push(...(await folderRoutes(key)))
+  else if (pages.has(key)) current.routes.push(key)
 }
 const listed = new Set(groups.flatMap((g) => g.routes))
 const unlisted = [...pages.keys()].filter((r) => r !== '' && !listed.has(r)).sort()
