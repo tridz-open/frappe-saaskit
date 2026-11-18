@@ -227,28 +227,40 @@ export function VersionTable({ data = 'versions' }) {
 }
 
 export const clients = [
-  { name: 'Tridz', href: 'https://tridz.com', logo: 'tridz.png' },
-  { name: 'URY', href: 'https://ury.app', logo: 'ury.svg' },
-  { name: 'Huf', href: 'https://huf.ai', logo: 'huf.svg' },
-  { name: 'Franchise Media', href: 'https://www.thefranchisemedia.com/', logo: 'franchise-media.png' }
+  { name: 'URY', href: 'https://ury.app', logo: 'ury.svg', h: 26, tag: 'Restaurant POS and ERP' },
+  { name: 'Huf', href: 'https://huf.ai', logo: 'huf.svg', h: 30, tag: 'Multi-agent AI on Frappe' },
+  { name: 'Franchise Media', href: 'https://www.thefranchisemedia.com/', logo: 'franchise-media.png', h: 38, tag: 'Franchise consulting and media' },
+  { name: 'Tridz', href: 'https://tridz.com', logo: 'tridz.png', h: 30, tag: 'Builds Frappe products' }
 ]
 
 export function Logos() {
   return (
-    <div className="logos">
-      <p className="logos-title">
-        Built with Frappe SaaS · <A href="/used-by/">see who</A>
-      </p>
-      <ul role="list">
+    <section className="logowall" aria-labelledby="logowall-title">
+      <div className="logowall-head">
+        <p className="logowall-eyebrow" id="logowall-title">Built with Frappe SaaS</p>
+        <A href="/used-by/" className="logowall-more">
+          See who &rarr;
+        </A>
+      </div>
+      <ul role="list" className="logowall-grid">
         {clients.map((c) => (
           <li key={c.name}>
-            <a href={c.href} aria-label={c.name} rel="noopener">
-              <img src={`${base}/logos/${c.logo}`} alt={c.name} loading="lazy" />
+            <a href={c.href} className="logowall-tile" rel="noopener" aria-label={`${c.name}: ${c.tag}`}>
+              <span
+                className="logowall-mark"
+                aria-hidden="true"
+                style={{
+                  '--logo': `url(${base}/logos/${c.logo})`,
+                  '--logo-h': `${c.h}px`
+                }}
+              />
+              <span className="logowall-name">{c.name}</span>
+              <span className="logowall-tag">{c.tag}</span>
             </a>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   )
 }
 

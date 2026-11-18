@@ -124,15 +124,23 @@ article table th, article table td { padding: 0.5rem 0.8rem; }
 article table th { text-align: start; background: var(--surface-subtle); }
 
 /* ---------- Logos ---------- */
-.logos { margin: 2rem 0 1rem; }
-.logos-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 1rem !important; }
-.logos ul { list-style: none !important; margin: 0 !important; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center; }
-.logos li { margin: 0 !important; padding: 0 !important; }
-.logos ul a { display: flex; align-items: center; height: 40px; padding: 4px 8px; border-radius: 8px; }
-.logos img { height: 28px; width: auto; object-fit: contain; filter: grayscale(1) opacity(0.7); transition: filter 0.15s; }
-.logos img[src$='tridz.png'] { height: 24px; }
-.logos ul a:hover img, .logos ul a:focus-visible img { filter: none; }
-html.dark .logos ul a { background: #fff; }
+/* ---------- Logo wall ("Built with Frappe SaaS") ---------- */
+/* Logos are drawn as masks in the current ink colour: one tone per theme, no white plates in dark. */
+.logowall { margin: 2.5rem 0 1rem; }
+.logowall-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.logowall-eyebrow { margin: 0 !important; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.logowall-more { font-size: var(--fs-small); color: var(--accent) !important; text-decoration: none !important; white-space: nowrap; }
+.logowall-more:hover { text-decoration: underline !important; text-underline-offset: 3px; }
+.logowall-grid { list-style: none !important; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+.logowall-grid li { margin: 0 !important; padding: 0 !important; }
+.logowall-tile { display: grid; grid-template-rows: 56px auto auto; justify-items: center; align-items: center; gap: 0.15rem; height: 100%; padding: 1.25rem 1rem 1.1rem; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--ink); text-decoration: none !important; text-align: center; transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; }
+.logowall-tile:hover, .logowall-tile:focus-visible { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-1px); box-shadow: 0 6px 20px -12px var(--accent-glow); }
+.logowall-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.logowall-mark { display: block; width: 100%; max-width: 150px; height: var(--logo-h, 28px); background-color: color-mix(in srgb, var(--ink) 72%, transparent); -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; transition: background-color 0.15s; }
+.logowall-tile:hover .logowall-mark, .logowall-tile:focus-visible .logowall-mark { background-color: var(--accent); }
+.logowall-name { margin-top: 0.6rem; font-size: 0.875rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.logowall-tag { font-size: 0.78rem; line-height: 1.35; color: var(--muted); }
+@media (max-width: 720px) { .logowall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- Alpha footer ---------- */
 .alpha-footer { margin-top: 4rem; padding-top: var(--space-6); border-top: 1px solid var(--border); font-size: var(--fs-small); color: var(--muted); line-height: 1.6; }
@@ -196,7 +204,7 @@ html.dark .logos ul a { background: #fff; }
 
 .table-wrap td code { white-space: nowrap; }
 
-article :where(p, li, td, dd) > a, .alpha-footer a, .logos-title a, .hero-eyebrow a, .diagram-desc a { text-decoration: underline; text-underline-offset: 3px; }
+article :where(p, li, td, dd) > a, .alpha-footer a, .hero-eyebrow a, .diagram-desc a { text-decoration: underline; text-underline-offset: 3px; }
 .diagram-canvas:focus-visible, .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .diagram-canvas svg { display: block; width: 100%; max-width: var(--dg-w); height: auto; margin-inline: auto; }
 @media (max-width: 899px) { .diagram { padding: var(--space-4); } .diagram-canvas svg { min-width: calc(var(--dg-w) * 0.8); } }
