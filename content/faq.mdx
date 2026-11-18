@@ -7,6 +7,98 @@ description: "Frequently asked questions about Frappe SaaS: production readiness
 
 <p className="lede">Short answers to the questions people ask first.</p>
 
-<Badge status="stub" /> This page is being written.
+## General
+
+<details>
+<summary>Is this production ready?</summary>
+
+No. It is early alpha: pin tags and use test keys. See [Status](/status/).
+
+</details>
+
+<details>
+<summary>Is it affiliated with Frappe?</summary>
+
+No. Not affiliated with or endorsed by Frappe Technologies; "Frappe" and "Frappe Cloud" are their trademarks.
+
+</details>
+
+<details>
+<summary>Do I need Frappe Cloud?</summary>
+
+For real provisioning, yes, Frappe Cloud v2. The [local demo](/guides/local-demo/) uses a fake fcctl.
+
+</details>
+
+<details>
+<summary>Can I use the current Frappe Cloud API?</summary>
+
+fcctl targets v2. For the current `press.api.*` API see [esafwan/frappe_cloud_sdk](https://github.com/esafwan/frappe_cloud_sdk).
+
+</details>
+
+<details>
+<summary>Can I contribute?</summary>
+
+Not accepting pull requests; please file issues on the relevant repo.
+
+</details>
+
+## Billing
+
+<details>
+<summary>How are refunds calculated?</summary>
+
+Unused whole IST days, pro rata, rounded down. See [Billing](/billing/).
+
+</details>
+
+<details>
+<summary>Why IST?</summary>
+
+Billing days are Asia/Kolkata calendar days by policy, with no daylight saving.
+
+</details>
+
+<details>
+<summary>Do you issue tax invoices?</summary>
+
+No. saas_core issues receipts only, and there are no tax invoices without ERPNext.
+
+</details>
+
+## Provisioning
+
+<details>
+<summary>Why does my new site return 503?</summary>
+
+The template is missing the trailing `core.scheduler_resume` and `core.maintenance_off` hooks. See [Templates and recipes](/concepts/recipes/).
+
+</details>
+
+<details>
+<summary>What if provisioning dies halfway?</summary>
+
+Jobs are resume-safe and reconciled; failures land in `needs_attention`. See [Provisioning](/concepts/provisioning/).
+
+</details>
+
+## Payments
+
+<details>
+<summary>Which gateways work?</summary>
+
+Razorpay (test mode, order checkout) is verified; Stripe is experimental; you can [add your own](/guides/adding-a-gateway/).
+
+</details>
+
+## Security
+
+<details>
+<summary>Can an AI agent drop my site?</summary>
+
+Not through fcctl's guard without an approval, but the guard is not access control. See [Security](/security/).
+
+</details>
 
 <AlphaFooter repo="saas_core" />

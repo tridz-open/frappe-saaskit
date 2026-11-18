@@ -1,22 +1,67 @@
 ---
-description: "Which path to take when launching your Frappe app as SaaS on Frappe Cloud with Frappe SaaS: look at the UI, run the full demo, or wire up your own app."
+title: Getting started
+description: "Pick your path for launching a Frappe app as SaaS with Frappe SaaS: look at the UI, run the full local demo, wire up your app, take test payments or provision sites."
 ---
 
 # Getting started
 
-Pick the path that matches what you want today.
+<p className="lede">Pick the path that matches what you want today. Every path starts from pinned tags.</p>
 
-<Shot name="pricing" alt="Starter pricing page, the first thing you see in fixture mode" caption="Fixture mode shows pages like this with no backend." />
+## Choose a path
 
-| I want to... | Do this | Needs |
-|---|---|---|
-| Just look at the customer UI | Run the starter in fixture mode: `git clone` [frappe-saaskit-starter](https://github.com/tridz-open/frappe-saaskit-starter), then `npm ci && npm run dev` | Node 20.19+ or 22.12+ |
-| See the whole flow locally, no Frappe Cloud | Follow the [Local demo](/guides/local-demo/) (fake `fcctl`) | Frappe v16 bench, MariaDB, Redis, Node, Python 3.11+ |
-| Put my own app behind it | [Writing a recipe](/guides/writing-a-recipe/), then the demo with your template | The above |
-| Take real payments (test mode) | [Payments](/guides/payments/) | Razorpay test account |
-| Provision real sites | `saas_core` [DEPLOY.md](https://github.com/tridz-open/saas_core/blob/main/DEPLOY.md) and the [fcctl README](https://github.com/tridz-open/fcctl#readme) | A Frappe Cloud v2 team |
-| Use `fcctl` alone | The [fcctl README](https://github.com/tridz-open/fcctl#readme) | A Frappe Cloud v2 account |
+<Cards num={3}>
+  <Cards.Card title="Look at the UI" href="#60-second-look" icon={<Icon name="MonitorSmartphone" />}>Run the starter in fixture mode, no backend.</Cards.Card>
+  <Cards.Card title="Run the whole flow locally" href="/guides/local-demo/" icon={<Icon name="Laptop" />}>A bench with saas_core and a fake fcctl.</Cards.Card>
+  <Cards.Card title="Put my own app behind it" href="/guides/writing-a-recipe/" icon={<Icon name="Puzzle" />}>A template and an optional recipe.</Cards.Card>
+  <Cards.Card title="Take test payments" href="/guides/payments/" icon={<Icon name="CreditCard" />}>Razorpay in test mode.</Cards.Card>
+  <Cards.Card title="Provision real sites" href="/guides/deploy/" icon={<Icon name="Cloud" />}>Deploy to a Frappe Cloud v2 team.</Cards.Card>
+  <Cards.Card title="Use fcctl alone" href="/guides/fcctl/" icon={<Icon name="Terminal" />}>The CLI and library on its own.</Cards.Card>
+</Cards>
 
-Always check [Versions](/status/versions/) first and pin the tags listed there.
+## Prerequisites
+
+| Path | Needs |
+|---|---|
+| Starter, fixture mode | Node 20.19+ or 22.12+ |
+| Local demo, your own recipe | Frappe v16 bench, MariaDB, Redis, Node, Python 3.11+ |
+| Real provisioning, fcctl alone | A Frappe Cloud v2 team with the `server:console` capability, Python 3.11+ |
+| Test payments | A Razorpay test account |
+
+## 60-second look
+
+<Steps>
+
+### Clone the starter
+
+```bash
+git clone https://github.com/tridz-open/frappe-saaskit-starter.git && cd frappe-saaskit-starter
+```
+
+### Run it
+
+```bash
+npm install && npm run dev
+```
+
+### Open it
+
+Go to `http://localhost:5173`, then try a scenario such as `?scenario=past_due`.
+
+</Steps>
+
+<Screenshot name="pricing" alt="Starter pricing page, the first thing you see in fixture mode" caption="Fixture mode shows pages like this with no backend." frame="browser" />
+
+| URL | Shows |
+|---|---|
+| `/?scenario=default` | Normal account with two instances |
+| `/signup?scenario=invite_only` | Signup that requires an invitation |
+| `/console?scenario=empty` | New account with no instances |
+| `/console/billing?scenario=past_due` | Past-due subscription banner |
+| `/console?scenario=provision_failed` | Provisioning that fails |
+
+## Before you go further
+
+> [!WARNING]
+> Pin exact tags and use test keys only. See [Versions](/status/versions/).
 
 <AlphaFooter repo="saas_core" />

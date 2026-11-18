@@ -1,12 +1,173 @@
 ---
 title: Using fcctl on its own
-description: "Use fcctl, the Frappe Cloud v2 CLI and library from Frappe SaaS, on its own: install, first run, everyday commands, exit codes and library."
+description: "Use fcctl, the Frappe Cloud v2 CLI and Python library behind Frappe SaaS, on its own: install, first run, everyday commands, exit codes and library."
 ---
 
 # Using fcctl on its own
 
 <p className="lede">fcctl drives Frappe Cloud v2 from your terminal or Python, with a safety layer on every write.</p>
 
-<Badge status="stub" /> This page is being written.
+> [!WARNING]
+> fcctl talks to Frappe Cloud's pre-public dashboard and Pilot API, which is undocumented and can change without notice. Pin a release tag and try writes on throwaway sites and a non-production team first.
+
+## Install
+
+fcctl is not on PyPI. Install it from a pinned tag.
+
+<Tabs items={['uv', 'pipx', 'pip']}>
+  <Tabs.Tab>
+
+```bash
+uv tool install "git+https://github.com/tridz-open/fcctl@v0.1.0-alpha.4"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+pipx install "git+https://github.com/tridz-open/fcctl@v0.1.0-alpha.4"
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+python3 -m venv .venv && . .venv/bin/activate
+pip install "git+https://github.com/tridz-open/fcctl@v0.1.0-alpha.4"
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+You need Python 3.11+, a Frappe Cloud v2 account with its team id, access to the account's mailbox (sign-in is a 6-digit emailed code) and the `server:console` capability to manage sites.
+
+## First run
+
+<Steps>
+
+### Initialise
+
+```bash
+fcctl init
+fcctl doctor
+```
+
+### Create a profile
+
+```bash
+fcctl profile create me --email you@example.com --team TEAM-xxxxx
+fcctl profile use me
+```
+
+The policy defaults to `guarded`.
+
+### Sign in
+
+<Tabs items={['Manual', 'stdin', 'IMAP']}>
+  <Tabs.Tab>
+
+```bash
+fcctl auth login
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+read -r CODE && echo "$CODE" | fcctl auth login --code-stdin
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+export FCCTL_IMAP_HOST=imap.example.com
+export FCCTL_IMAP_USER=ops-mailbox@example.com
+export FCCTL_IMAP_PASS='app-password'
+fcctl auth login --code-source imap
+```
+
+Use a dedicated mailbox and an app password.
+
+  </Tabs.Tab>
+</Tabs>
+
+### Check everything
+
+```bash
+fcctl auth whoami
+fcctl doctor
+```
+
+</Steps>
+
+## Everyday commands
+
+```bash
+fcctl server list                                  # Central
+fcctl site list -s server-xxxx                     # Pilot
+fcctl app add india_compliance --site shop.example.com -s server-xxxx
+fcctl backup create shop.example.com -s server-xxxx
+fcctl logs tail FILENAME --lines 100 -s server-xxxx
+fcctl task wait TASK_ID -s server-xxxx
+fcctl site provision acme.example.com -s server-xxxx --app erpnext --dry-run
+```
+
+Add `--dry-run` to any write to see what it would send. Dropping a site is destructive: under `guarded` it files an approval and exits 7. Full list: [COMMANDS.md](https://github.com/tridz-open/fcctl/blob/main/docs/COMMANDS.md).
+
+## Scripting
+
+Data goes to stdout, progress and errors to stderr, and `-o json` is the default when stdout is not a terminal.
+
+| Code | Meaning |
+|---|---|
+| 0 | ok |
+| 1 | API error, API drift, or any other failure |
+| 2 | usage error |
+| 3 | auth: session or CSRF token missing, expired or rejected |
+| 4 | policy denied, outside the profile's scope, or feature disabled |
+| 5 | not found |
+| 6 | conflict: another task is running on the resource, or the name exists |
+| 7 | approval pending |
+| 8 | wait timeout (the remote operation keeps running) |
+| 9 | task failed |
+| 10 | Cloudflare challenge |
+| 11 | rate limited or quota exceeded |
+| 12 | validation error (including a refused disk shrink) |
+| 13 | outcome unknown (the connection broke after the request was sent) |
+| 130 | interrupted |
+
+## Library
+
+```python
+from fcctl import Client
+from fcctl.session_store import SessionStore
+
+c = Client(SessionStore(), team="TEAM-xxxxx")   # log in with the CLI first
+sites = c.sites.list("server-xxxx")
+run = c.workflows.provision_site(server="server-xxxx", site="demo.example.com", site_apps=["erpnext"])
+run.wait()
+c.close()
+```
+
+Destructive facade calls (`sites.drop`, `backups.restore`) return a `PendingApproval`. For tests, `fcctl.testing.FakeFrappeCloud` is an in-process fake.
+
+## Experimental commands
+
+<Badge status="experimental" /> Implemented and covered by offline tests, but not run against the live API. Try them on throwaway resources first.
+
+| Command | Why experimental |
+|---|---|
+| `app add NAME -s SERVER` (bench-only), `app add --repo URL`, `app check-updates`, `app remove` | Not live-tested |
+| `backup restore` | Not live-tested; the approval gate stopped the live attempt |
+| `server create / start / stop / restart / resize / protect / terminate` | Central writes, not live-tested |
+| `snapshot take / delete`, `bucket create / quota / delete / put` | Central writes, not live-tested |
+| `billing health` | Computed from field names that are not live-verified |
+
+Live-verified: site create, rename, drop (through the approval gate), app install, config, logs, backup create and list, cross-site backup upload, task output, and the full provision workflow from a golden backup.
+
+The safety model has its own page: [Security](/security/).
+
+Sources: [fcctl README](https://github.com/tridz-open/fcctl#readme), [COMMANDS.md](https://github.com/tridz-open/fcctl/blob/main/docs/COMMANDS.md), [API_IA.md](https://github.com/tridz-open/fcctl/blob/main/docs/API_IA.md).
 
 <AlphaFooter repo="fcctl" />

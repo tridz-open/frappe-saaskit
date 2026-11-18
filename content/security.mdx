@@ -1,12 +1,97 @@
 ---
 title: Security and safety model
-description: "The Frappe SaaS safety model: fcctl policies and approvals, journal, audit chain, saas_core two-person approvals, webhooks and secrets."
+description: "The Frappe SaaS safety model: fcctl policies and approvals, journal, audit chain, saas_core two-person approvals, webhook verification and secrets handling."
 ---
 
 # Security and safety model
 
 <p className="lede">Layered guards against mistakes, buggy scripts and over-eager agents. Not a replacement for access control.</p>
 
-<Badge status="stub" /> This page is being written.
+## Layers at a glance
+
+<FeatureGrid cols={2}>
+  <Feature icon="ShieldCheck" title="Approval gates">Drops, restores and terminates wait for a second person.</Feature>
+  <Feature icon="Terminal" title="fcctl policies">Per-profile full, guarded, read_only or protected.</Feature>
+  <Feature icon="RotateCcw" title="Journal and reconcile">Recorded before any call; unknown outcomes are never retried silently.</Feature>
+  <Feature icon="FileText" title="Hash-chained audit">Tamper-evident logs in fcctl and saas_core.</Feature>
+  <Feature icon="Plug" title="Webhook verification">HMAC over raw bytes, constant-time compare, idempotent events.</Feature>
+  <Feature icon="Wallet" title="Secrets handling">Encrypted sessions, blanked keys, one-time links.</Feature>
+</FeatureGrid>
+
+## fcctl safety model
+
+Every write passes through the safety layer before any API call.
+
+### Policies
+
+| Policy | Behaviour |
+|---|---|
+| `full` | Allows everything |
+| `guarded` (default) | Allows writes; destructive operations need approval and cost-changing ones need `--confirm TARGET` |
+| `read_only` | Allows no writes, including raw `fcctl api` calls that look destructive |
+| `protected` | Allows no writes, except operations in the profile's `allow` list |
+
+### Approvals
+
+Gated under `guarded`: Pilot `site drop`, `site uninstall_app`, `backup restore`, `app remove`, `app switch_branch`, `task cancel`; Central `server terminate`, `stop` and `resize`, turning termination protection off, `snapshot delete` and `bucket delete`. The command files an approval and exits with code 7. Approvals expire after 30 minutes. Pin an approver's public key on a profile and approvals must carry a valid Ed25519 signature. See the [approval flow](/concepts/approvals/).
+
+### Journal and reconcile
+
+fcctl writes `dispatching` (with fsync) before any network call. If the process dies mid-call the entry becomes `outcome_unknown` and is never retried silently. `fcctl reconcile --once` asks the remote what happened.
+
+### Audit
+
+An append-only, hash-chained JSONL log. Check it with `fcctl audit verify`.
+
+### Guard limits for library users
+
+| Call | Guard |
+|---|---|
+| CLI commands | Enforced: policy, approval, audit, journal |
+| `Client.sites.drop`, `Client.backups.restore` | Return `PendingApproval` instead of acting |
+| `owned_by_workflow=<id>` on those calls | Exempt only if the journal shows that workflow created the site; otherwise `PolicyDenied` |
+| `unsafe=True` on those calls | Opt-out with no guard; an audit entry is written first |
+| `Servers.resize` | Not approval-gated; refuses a disk shrink |
+| `Workflows.provision_site` | Unguarded; it only restores onto a site the workflow itself creates |
+| Other facade reads and writes | Not gated |
+| `client.pilot(server).post(...)`, `client.central.call(...)` | Raw transport, not enforced |
+| `fcctl.sites.*`, `fcctl.servers.*` helpers | Low-level, not enforced for direct calls |
+
+### What it is not
+
+> [!CAUTION]
+> All of this runs on your machine. Anyone with your session, `FCCTL_KEY` and the approval secret can bypass it. Requester and approver names are not authenticated. Pilot tokens are bench-scoped: one token controls every site on that server. For real separation of duties use separate Frappe Cloud accounts with restricted roles.
+
+## saas_core safety
+
+### Two-person approvals
+
+`terminate` and `restore` jobs need an executable Approval Request: the approver differs from the requester and holds the role SaaS Admin.
+
+### Hash-chained audit events
+
+`saas_core.audit.log` writes an immutable Audit Event with `prev_hash` and `hash`.
+
+### Experimental features are off by default
+
+`saas_core_experimental` names what is enabled. A gated endpoint answers 403 `experimental_disabled`. See [Status](/status/).
+
+### Payments
+
+Test keys (`rzp_test_*`) only; live keys are refused unless allowed. Webhook signatures are HMAC over the raw bytes with a constant-time compare, and events are idempotent.
+
+### Secrets
+
+The Frappe Cloud session is Fernet-encrypted (`saas_core_session_key`). Razorpay keys are blanked after bootstrap. The setup URL is never stored or logged, the admin password is never mailed, and an API token's secret is shown once with only its sha256 stored.
+
+## Where state lives
+
+fcctl keeps its state in `$FCCTL_HOME` (default `~/.fcctl`, directory 0700, files 0600). The journal stores recipe values as-is so it can replay them, so keep that directory private.
+
+## Reporting a vulnerability
+
+Report privately, not in a public issue: use each repo's Security tab ([saas_core](https://github.com/tridz-open/saas_core/blob/main/SECURITY.md), [fcctl](https://github.com/tridz-open/fcctl/blob/main/SECURITY.md)). Never include real keys or customer data.
+
+Sources: [fcctl README: Safety model](https://github.com/tridz-open/fcctl#safety-model), [saas_core STATUS.md](https://github.com/tridz-open/saas_core/blob/main/docs/STATUS.md), [docs/ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md), [gateway CONTRACT.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/CONTRACT.md).
 
 <AlphaFooter repo="saas_core" />

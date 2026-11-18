@@ -1,12 +1,35 @@
 ---
 title: Roadmap
-description: "The Frappe SaaS roadmap: what is in alpha now, what comes next and what is later. Draft, subject to change."
+description: "The Frappe SaaS roadmap: what is in alpha now, what comes next and what is later. Draft, subject to change; intent, not commitment."
 ---
 
 # Roadmap
 
 <p className="lede">What we intend next. Intent, not commitment; dates are not promised.</p>
 
-<Badge status="stub" /> This page is being written.
+> [!WARNING]
+> **Draft, subject to change.** This list is drawn only from gaps documented in the repos and has not been confirmed as a plan.
+
+## Now (alpha)
+
+<Cards num={1}>
+  <Cards.Card title="Alpha releases" href="/status/versions/">saas_core v0.1.0-alpha.3, fcctl v0.1.0-alpha.4, starter v0.1.0-alpha.2. See the status matrix for what is verified.</Cards.Card>
+</Cards>
+
+## Next
+
+- SDK published on npm, replacing the release tarballs.
+- Verify Stripe against a live account.
+- Verify renewals and dunning.
+- Offsite backups in the Frappe Cloud adapter (it has no bucket support yet).
+- A starter tag matching saas_core alpha.3.
+
+## Later
+
+- An official Frappe Cloud API or token flow, when one exists.
+- An MCP server for fcctl.
+- Tax invoices through ERPNext.
+
+Sources: [SDK README](https://github.com/tridz-open/saas_core/blob/main/sdk/README.md), [DEPLOY.md](https://github.com/tridz-open/saas_core/blob/main/DEPLOY.md), [fcctl README: Known gaps](https://github.com/tridz-open/fcctl#known-gaps), [Versions](/status/versions/).
 
 <AlphaFooter repo="saas_core" />

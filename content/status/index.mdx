@@ -1,12 +1,41 @@
 ---
 title: Status matrix
-description: "What is verified, experimental or removed in Frappe SaaS: the saas_core matrix, fcctl commands, starter and SDK."
+description: "What is verified, experimental or removed in Frappe SaaS: the saas_core matrix, fcctl commands, the starter and the SDK."
 ---
 
 # Status matrix
 
 <p className="lede">Verified means exercised against a real deployment. Everything else is experimental.</p>
 
-<Badge status="stub" /> This page is being written.
+> [!WARNING]
+> Everything in Frappe SaaS is alpha. Verified means exercised against Razorpay test mode, Frappe Cloud and real SMTP, not battle-tested in production.
+
+## saas_core
+
+<VersionTable data="status" />
+
+## fcctl
+
+Live-verified on Frappe Cloud (Pilot): site create, rename, drop (through the approval gate), app install and `app add --site`, config, logs, backup create, list and schedule, cross-site backup upload, task output, and the full provision workflow from a golden backup. Everything else is <Badge status="experimental" />; see the table on [Using fcctl on its own](/guides/fcctl/#experimental-commands).
+
+## Starter and SDK
+
+Starter experimental features: team invites and roles, API tokens, support tickets, invoice PDF, password reset and the admin pages. SDK: `client` and `react` are alpha with a verified core, `mock` is alpha, `vue` and `node` are <Badge status="experimental" />. See [Building on the SDK](/guides/sdk/).
+
+## Turning on experimental features
+
+```bash
+bench --site <site> set-config saas_core_experimental "stripe,dunning"
+bench --site <site> set-config saas_core_experimental all          # everything except fake_gateway, evaluation only
+bench --site <site> set-config saas_core_experimental_restore 1     # or one key per feature
+```
+
+A gated endpoint answers 403 `experimental_disabled`; gated background jobs do nothing.
+
+## Removed
+
+The rows marked Removed in the matrix above were deleted rather than shipped untested, so stop looking for them: `tenants.duplicate`, the Paddle gateway, `subscription.cancel`, `subscription.portal_link`, the event types `tenant.updated` and `invoice.created`, and the unused `razorpay` and `stripe` pip dependencies.
+
+Sources: [saas_core STATUS.md](https://github.com/tridz-open/saas_core/blob/main/docs/STATUS.md), [fcctl README](https://github.com/tridz-open/fcctl#experimental-commands), [starter README](https://github.com/tridz-open/frappe-saaskit-starter#status-alpha).
 
 <AlphaFooter repo="saas_core" />
