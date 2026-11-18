@@ -1,6 +1,6 @@
 # Logo sources
 
-Each logo is taken unmodified from the company's own official website. Display styling (greyscale, hover colour) is CSS only.
+Each logo is taken from the company's own official website. Two raster files were only trimmed of empty margins (Tridz) or had their white background made transparent (Franchise Media); shapes are unchanged. On the site every logo is drawn as a CSS mask in the theme's ink colour.
 
 | Logo | File | Source |
 |---|---|---|
