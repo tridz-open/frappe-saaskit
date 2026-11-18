@@ -1,17 +1,21 @@
 ---
+title: Local demo
 description: "Step-by-step local demo of Frappe SaaS: run a Frappe v16 bench with saas_core, a fake Frappe Cloud and the starter app, to try launching a Frappe app as SaaS."
 ---
-import { Callout } from 'nextra/components'
-
 # Local demo
 
-A demo-mode stack on your machine. **No real Frappe Cloud is contacted** and only test-mode payment keys are used.
+<p className="lede">A demo-mode stack on your machine. No real Frappe Cloud is contacted and only test-mode payment keys are used.</p>
 
-<Callout type="warning">Each step is tagged **tested** (run during an audit) or **untested** (written from the READMEs, may need adjusting). Report problems as issues.</Callout>
+> [!WARNING]
+> Each step is tagged <Badge status="tested" /> (run during an audit) or <Badge status="untested" /> (written from the READMEs, may need adjusting). Report problems as issues.
 
-Use the tags from [Versions](/versions). Demo clones below use `saas_core v0.1.0-alpha.2`; `v0.1.0-alpha.3` (with the SDK) is also released.
+Use the tags from [Versions](/status/versions/). Demo clones below use `saas_core v0.1.0-alpha.2`; `v0.1.0-alpha.3` (with the SDK) is also released.
 
-## 1. Clone, pinned (tested as clones)
+## Steps
+
+<Steps>
+
+### 1. Clone, pinned <Badge status="tested" />
 
 ```bash
 mkdir saas-kit-demo && cd saas-kit-demo
@@ -20,7 +24,19 @@ git clone --branch v0.1.0-alpha.4 --depth 1 https://github.com/tridz-open/fcctl.
 git clone --branch v0.1.0-alpha.2 --depth 1 https://github.com/tridz-open/frappe-saaskit-starter.git
 ```
 
-## 2. fcctl, library only (tested)
+After cloning, the folder looks like this (the bench and virtualenv appear in later steps):
+
+<FileTree>
+  <FileTree.Folder name="saas-kit-demo" defaultOpen>
+    <FileTree.Folder name="saas_core" />
+    <FileTree.Folder name="fcctl" />
+    <FileTree.Folder name="frappe-saaskit-starter" />
+    <FileTree.Folder name="bench" />
+    <FileTree.Folder name=".venv-fcctl" />
+  </FileTree.Folder>
+</FileTree>
+
+### 2. fcctl, library only <Badge status="tested" />
 
 ```bash
 python3 -m venv .venv-fcctl && . .venv-fcctl/bin/activate
@@ -32,7 +48,7 @@ deactivate
 
 Do not run `fcctl init` or `fcctl auth login` for the demo.
 
-## 3. Frappe v16 bench with saas_core (untested)
+### 3. Frappe v16 bench with saas_core <Badge status="untested" />
 
 Needs MariaDB, Redis, Node and Python installed. Bench flags depend on your setup.
 
@@ -46,7 +62,7 @@ bench --site saas.localhost migrate
 
 `fcctl` is pulled in automatically at its pinned tag. Check that `list-apps` shows `saas_core` and the roles `SaaS Admin`, `SaaS Customer`, `SaaS Platform Worker` exist.
 
-## 4. Demo mode config (untested)
+### 4. Demo mode config <Badge status="untested" />
 
 ```bash
 bench --site saas.localhost set-config saas_core_fake_fcctl 1
@@ -59,19 +75,19 @@ curl -s http://saas.localhost:8000/api/method/saas_core.api.v1.config
 
 Do not set `saas_core_local_bench`, `saas_core_fc_team`, `saas_core_fc_server` or `saas_core_session_key`.
 
-## 5. A template and a plan (untested; undocumented upstream)
+### 5. A template and a plan <Badge status="untested" />
 
-Create one public Template (`slug=starter`, `is_public=1`, hooks ending with `core.scheduler_resume` then `core.maintenance_off`) and one Plan that references it, in the desk at `/app`. Fields: [TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md). Whether a template without a golden backup validates is **untested**. Do not run `sync_plans` without Razorpay keys. Verify with:
+Create one public Template (`slug=starter`, `is_public=1`, hooks ending with `core.scheduler_resume` then `core.maintenance_off`) and one Plan that references it, in the desk at `/app`. Fields: [TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md). This step is undocumented upstream, and whether a template without a golden backup validates is untested. Do not run `sync_plans` without Razorpay keys. Verify with:
 
 ```bash
 curl -s "http://saas.localhost:8000/api/method/saas_core.api.v1.plans.list?currency=INR&interval=month"
 ```
 
-## 6. Payments (optional, untested)
+### 6. Payments (optional) <Badge status="untested" />
 
-See [Payments](/payments). Test keys (`rzp_test_*`) only; a webhook needs a public tunnel.
+See [Payments](/guides/payments/). Test keys (`rzp_test_*`) only; a webhook needs a public tunnel.
 
-## 7. Starter, fixture mode (tested)
+### 7. Starter, fixture mode <Badge status="tested" />
 
 ```bash
 cd ../frappe-saaskit-starter
@@ -80,7 +96,7 @@ npm run dev        # http://localhost:5173
 npm run build
 ```
 
-## 8. Starter, live mode (build tested, runtime untested)
+### 8. Starter, live mode <Badge status="untested" />
 
 ```bash
 cp .env.example .env.local
@@ -94,6 +110,8 @@ Expected (untested): the pricing page shows your plan, signup creates a user, an
 
 A newer starter tag will take the SDK from its release tarballs.
 
----
+</Steps>
 
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+Sources: [saas_core README](https://github.com/tridz-open/saas_core#readme), [fcctl README](https://github.com/tridz-open/fcctl#readme), [starter README](https://github.com/tridz-open/frappe-saaskit-starter#readme).
+
+<AlphaFooter repo="saas_core" />

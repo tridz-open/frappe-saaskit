@@ -1,0 +1,134 @@
+---
+title: Glossary
+description: "Glossary of Frappe SaaS terms: Approval Request, Golden backup, Pilot, Provision Job, Recipe, Template, Tenant and more, each linked to its page."
+---
+
+# Glossary
+
+<p className="lede">The words Frappe SaaS uses, in alphabetical order, each linked to where it is explained.</p>
+
+**Approval Request**
+
+Two-person gate for terminate and restore. [Read more](/concepts/approvals/).
+
+**Audit Event**
+
+Immutable, hash-chained record of an action. [Read more](/security/).
+
+**Central**
+
+Frappe Cloud v2 dashboard plane: team, billing, servers, snapshots, buckets. [Read more](/architecture/).
+
+**Control plane**
+
+The one Frappe site that runs saas_core. [Read more](/architecture/).
+
+**Cycle**
+
+The span between two renewals; its length is the real day count. [Read more](/billing/).
+
+**Dunning**
+
+Staged failed-payment handling at 1, 3, 7 and 14 days. Experimental. [Read more](/concepts/subscriptions/).
+
+**fcctl**
+
+The CLI and library that drives Frappe Cloud v2. [Read more](/guides/fcctl/).
+
+**Fixture mode**
+
+The starter running on in-memory demo data. [Read more](/getting-started/).
+
+**Gateway**
+
+A pluggable payment provider class. [Read more](/concepts/gateways/).
+
+**Gateway Account**
+
+The enabled record holding a gateway mode and keys. [Read more](/concepts/gateways/).
+
+**Golden backup**
+
+A prepared site restored into every new tenant. [Read more](/concepts/golden-backup/).
+
+**Health check**
+
+A `{name, path, expect}` request made after provisioning. [Read more](/concepts/provisioning/).
+
+**Hook**
+
+An ordered step run after restore, `core.*` or `name@version`. [Read more](/concepts/recipes/).
+
+**IST billing day**
+
+An Asia/Kolkata calendar day, the unit of billing. [Read more](/billing/).
+
+**Journal**
+
+fcctl record written before any call so crashes can be reconciled. [Read more](/security/).
+
+**Minor units**
+
+Integer paise or cents; no floats. [Read more](/concepts/plans/).
+
+**NormalizedEvent**
+
+The provider-neutral event a gateway parses into. [Read more](/concepts/subscriptions/).
+
+**Payment Event**
+
+One stored gateway proof, named gateway:event_id. [Read more](/concepts/subscriptions/).
+
+**Pilot**
+
+The per-server Frappe Cloud gateway: sites, apps, backups, tasks. [Read more](/architecture/).
+
+**Plan**
+
+What a customer buys: prices and a template. [Read more](/concepts/plans/).
+
+**Plan Price**
+
+A row of interval, currency, amount and gateway. [Read more](/concepts/plans/).
+
+**Policy (fcctl)**
+
+full, guarded, read_only or protected. [Read more](/security/).
+
+**Provision Job**
+
+The auditable, resume-safe job that builds a site. [Read more](/concepts/provisioning/).
+
+**Recipe**
+
+Optional code your app registers to customise tenants. [Read more](/concepts/recipes/).
+
+**Reconcile**
+
+The sweep that settles jobs with an unknown outcome. [Read more](/concepts/provisioning/).
+
+**Signup gate**
+
+closed, invite, allowlist or open. [Read more](/lifecycle/).
+
+**Starter**
+
+The React customer front end. [Read more](/architecture/).
+
+**Subscription**
+
+Ties a tenant to a plan and a gateway. [Read more](/concepts/subscriptions/).
+
+**Template**
+
+What a tenant site is: apps, backup, hooks, checks. [Read more](/concepts/recipes/).
+
+**Tenant**
+
+One customer's isolated Frappe site. [Read more](/concepts/tenants/).
+
+**Workflow id**
+
+The journal id of a provision_site run, used to resume it. [Read more](/concepts/provisioning/).
+
+<AlphaFooter repo="saas_core" />

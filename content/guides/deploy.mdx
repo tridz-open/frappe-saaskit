@@ -1,0 +1,124 @@
+---
+title: Deploying to Frappe Cloud
+description: "Deploy the Frappe SaaS control plane (saas_core) to Frappe Cloud by hand: prerequisites, nine steps, config keys, unattended re-login, beta access and rollback."
+---
+
+# Deploying to Frappe Cloud
+
+<p className="lede">Deploy saas_core to a Frappe Cloud control-plane site, by hand, in nine steps.</p>
+
+There is no deploy script. You run these steps yourself, or from your own automation, with `fcctl` and the whitelisted `admin.ops.run` endpoint.
+
+## Prerequisites
+
+- A Frappe Cloud control-plane server and site, and `fcctl` logged in (`FCCTL_TEAM`, `FCCTL_KEY`).
+- Apps reachable from Frappe Cloud (connect the GitHub app or a token for private repos).
+- Local tests green and a control-plane backup: `fcctl -s <cp> backup create <site>`.
+- Secrets, never committed: Razorpay **test** key id, secret and webhook secret (`rzp_test_*`; live keys are refused unless allowed) and SMTP credentials.
+
+## Steps
+
+<Steps>
+
+### Add apps
+
+fcctl, saas_core, then your recipe app if any, in this order. `app add` rebuilds the bench, and `--wait` follows the task.
+
+```bash
+fcctl -s <cp> app add --repo URL --branch main --wait
+```
+
+### Deploy
+
+There is no separate fcctl command; step 1 deploys.
+
+### Install on the site
+
+```bash
+fcctl app install saas_core --site <site>
+```
+
+Then your recipe app. fcctl needs no site install.
+
+### Site config
+
+```bash
+fcctl site config set <site> KEY=VALUE...
+```
+
+Keys: `saas_core_signup_mode`, `saas_core_console_url`, `saas_core_fake_fcctl=0`, `saas_core_default_gateway`, `saas_core_razorpay_key_id/key_secret/webhook_secret`, `saas_smtp_*`.
+
+### Gateway bootstrap
+
+`POST /api/method/saas_core.api.v1.admin.ops.run {"op":"bootstrap_gateway"}` as a System Manager. Then blank the `saas_core_razorpay_key_secret` and `_webhook_secret` keys (fcctl has no unset).
+
+### Email account
+
+Op `setup_email` reads `saas_smtp_*`.
+
+### Migrate
+
+```bash
+fcctl site migrate <site> --wait
+```
+
+### Plans
+
+Op `sync_plans`. It needs the bootstrapped Gateway Account.
+
+### Verify
+
+`/api/method/ping` returns pong, then run op `fc_check`.
+
+</Steps>
+
+fcctl cannot run site methods, so steps 5, 6 and 8 call `admin.ops.run` (ops `bootstrap_gateway`, `setup_email`, `sync_plans`, `fc_check`; System Manager or SaaS Admin only; each run audited; results secret-free). Authenticate with `Authorization: token <api_key>:<api_secret>`.
+
+> [!CAUTION]
+> `fcctl site config set` puts values on argv. Run it only from a trusted machine. Remove the `saas_core_razorpay_*` secrets after step 5.
+
+## Real Frappe Cloud mode keys
+
+With neither `saas_core_local_bench` nor `saas_core_fake_fcctl` set, saas_core uses a real fcctl client. The login session is read from the database, encrypted with `saas_core_session_key`.
+
+| Key | Purpose |
+|---|---|
+| `saas_core_fc_team` | Frappe Cloud team (required) |
+| `saas_core_fc_server` | Default server; a template manifest `server` overrides it |
+| `saas_core_session_key` | Fernet key that encrypts the stored session (required) |
+| `saas_core_fc_reauther` | Unattended re-login callable |
+| `saas_core_fc_email` | Frappe Cloud login email |
+| `saas_core_fc_imap_host` / `_user` / `_password` | Mailbox that receives the sign-in code |
+| `saas_core_alert_email` | Alerted when the session is lost and sites are paused |
+| `saas_core_fc_journal_dir` | Optional; default `<site>/private/fcctl/journal` |
+
+## Unattended re-login
+
+<Badge status="verified" /> When the session expires, enable the IMAP one-time-code re-login:
+
+```bash
+fcctl -s <cp> site config set <site> saas_core_fc_reauther=saas_core.fc_reauth.imap_reauther \
+  saas_core_fc_email=<FC login email> saas_core_fc_imap_host=<imap host> \
+  saas_core_fc_imap_user=<mailbox user> saas_core_fc_imap_password=<mailbox password>
+```
+
+The mailbox must receive the Frappe Cloud sign-in code. One attempt per 10 minutes, and each attempt is audited as `fc.reauth`.
+
+## Beta access
+
+Signup has four modes: `closed` (default), `invite`, `allowlist`, `open`. For a beta use `allowlist`: only emails or `@domain` patterns in Platform Settings `signup_allow` can sign up, and checkout also needs a verified email.
+
+```bash
+bench --site <site> set-config saas_core_signup_mode allowlist
+bench --site <site> execute saas_core.beta_access.add_beta_users --kwargs '{"emails": ["a@x.com", "@partner.com"], "send_invite": true, "note": "demo batch 1"}'
+bench --site <site> execute saas_core.beta_access.list_beta_users
+bench --site <site> set-config saas_core_signup_mode closed   # close the beta again
+```
+
+## Rollback
+
+Take a backup before step 3. Redeploy the previous bench release for failed builds. `saas_core_signup_mode=closed` or `Gateway Account.enabled=0` stops new checkouts.
+
+Sources: [DEPLOY.md](https://github.com/tridz-open/saas_core/blob/main/DEPLOY.md), [STATUS.md](https://github.com/tridz-open/saas_core/blob/main/docs/STATUS.md).
+
+<AlphaFooter repo="saas_core" />

@@ -1,38 +1,71 @@
 ---
-description: "Frappe SaaS lets you launch your Frappe app as SaaS on Frappe Cloud. Three open-source alpha repos cover signup, billing, tenant provisioning and a customer console."
+title: Frappe SaaS
+description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, golden-backup provisioning and a customer console. Three open-source alpha repos."
 ---
-import { Callout } from 'nextra/components'
 
-import { Gallery, Shot } from '../app/_components/Shot'
-import { Logos } from '../app/_components/Logos'
+<Hero eyebrow="Alpha · v0.1.0" eyebrowLink={{label: 'Read the status', href: '/status/'}} title="Sell your Frappe app as SaaS." sub="Customers sign up, pay, and get their own Frappe site on Frappe Cloud, built automatically from your golden backup. Billing, provisioning and a customer console, open source." primary={{label: 'Get started', href: '/getting-started/'}} secondary={{label: 'Run the local demo', href: '/guides/local-demo/', icon: 'Terminal'}} note="browser → starter → saas_core → fcctl → Frappe Cloud">
+<Screenshot name="landing" alt="Frappe SaaS starter landing page for a Frappe app sold as SaaS" frame="browser" priority />
+<Screenshot name="provisioning-in-progress" alt="Provisioning progress with per-step status" frame="browser" overlay />
+</Hero>
 
-# Frappe SaaS
+<Section title="From signup to a running site" sub="Five steps, each one auditable and safe to retry.">
+<Flow steps={[
+  {icon:'UserPlus', title:'Sign up', body:'Your starter app collects the account. Signup can be open, invite-only or allowlisted.'},
+  {icon:'CreditCard', title:'Pay', body:'Checkout runs through a pluggable gateway. Each payment is recorded exactly once.'},
+  {icon:'Server', title:'Provision', body:'saas_core starts a job; fcctl restores your golden backup into a new Frappe Cloud site.'},
+  {icon:'MailCheck', title:'Hand over', body:'Health checks pass, then the owner gets a one-time setup link.'},
+  {icon:'RefreshCw', title:'Renew or cancel', body:'Monthly in advance. Cancel any day; unused whole days are refunded.'}
+]} />
+</Section>
 
-Launch your Frappe app as SaaS on [Frappe Cloud](https://frappecloud.com): customers sign up, pay, and each gets their own isolated Frappe site, created automatically.
+<Section tone="subtle" title="Everything between &quot;Buy&quot; and a live site">
+<FeatureGrid cols={3}>
+  <Feature icon="Layers" title="Golden-backup provisioning">Every tenant is restored from a prepared site, then your hooks run and health checks confirm it is up.</Feature>
+  <Feature icon="Wallet" title="Fair, day-based billing">Monthly in advance, accounted per IST day. Refunds round down, charges round up, always in whole minor units.</Feature>
+  <Feature icon="Plug" title="Pluggable gateways">Razorpay is verified. Stripe is experimental. Add your own gateway from your own app.</Feature>
+  <Feature icon="ShieldCheck" title="Approval gates">Dropping a site or restoring a backup waits for a second person. Every action lands in a hash-chained audit log.</Feature>
+  <Feature icon="RotateCcw" title="Resume-safe jobs">Provisioning is journalled step by step. A crash is reconciled, never blindly retried.</Feature>
+  <Feature icon="LayoutDashboard" title="Customer console">A React starter with pricing, checkout, instances, billing and backups. Fork it and brand it.</Feature>
+  <Feature icon="Puzzle" title="Recipes">Plug your app in with a template and optional Python hooks, provisioned per customer.</Feature>
+  <Feature icon="FlaskConical" title="Mock everything">Fixture mode, a mock SDK, a fake fcctl and a fake Frappe Cloud: build without touching production.</Feature>
+  <Feature icon="Bot" title="Agent-ready docs">llms.txt, raw Markdown for every page and a copy-paste setup prompt.</Feature>
+</FeatureGrid>
+</Section>
 
-<Callout type="warning">All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/versions)), use test-mode payment keys only, and try everything on throwaway sites first.</Callout>
+<Section title="How the pieces fit" sub="Frontends only talk to saas_core. Only the server talks to Frappe Cloud, only through fcctl.">
 
-**Who it is for:** teams that build a Frappe or ERPNext app and want to sell it as a subscription product, with one site per customer. If you only host a couple of sites by hand, you do not need this. It is used in production by one product (see [Used by](/used-by)).
+<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway and receives its webhooks. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
 
-<Shot name="landing" alt="Frappe SaaS starter landing page for a Frappe app sold as SaaS" caption="The starter's landing page, in fixture mode." />
+```mermaid
+flowchart LR
+  B([Browser]) --> S["Starter<br/>React + SDK"]
+  S -- "HTTPS JSON<br/>API 2.0.0-alpha.1" --> C["saas_core<br/>control-plane site"]
+  G[["Payment gateway<br/>Razorpay · Stripe · yours"]] -- "webhooks" --> C
+  C -- "checkout session" --> G
+  C -- "fcctl port" --> F["fcctl<br/>CLI + library"]
+  subgraph FC["Frappe Cloud v2"]
+    direction TB
+    CEN["Central<br/>team · servers · buckets"]
+    PIL["Pilot<br/>sites · apps · backups"]
+  end
+  F --> CEN
+  F --> PIL
+  PIL --> T1[(Tenant site A)]
+  PIL --> T2[(Tenant site B)]
+```
 
-## The three pieces
+</Diagram>
 
-| Piece | In one line |
-|---|---|
-| [`saas_core`](https://github.com/tridz-open/saas_core) | Frappe v16 control-plane app: plans, signup, billing, tenant provisioning and a versioned HTTP API. Also hosts the TypeScript SDK in `sdk/`. |
-| [`fcctl`](https://github.com/tridz-open/fcctl) | Python CLI and library that drives Frappe Cloud v2; `saas_core` uses it to create customer sites. |
-| [`frappe-saaskit-starter`](https://github.com/tridz-open/frappe-saaskit-starter) | React front end (landing, pricing, signup, checkout, customer console) built on the SDK. Fork and brand it. |
+[Read the architecture →](/architecture/)
 
-## The flow
+</Section>
 
-`browser -> starter + SDK -> saas_core -> fcctl -> Frappe Cloud`
+<Section tone="subtle" title="Three repos, one kit">
+<Repos />
+</Section>
 
-Your app reaches customers as a *recipe* that `saas_core` provisions per tenant. Details: [Architecture](/architecture).
-
-## What customers see
-
-<Gallery items={[
+<Section title="What your customers see" sub="Captured from the starter in fixture mode, no backend.">
+<Gallery cols={3} items={[
   {name:'pricing', alt:'Pricing page with three plans and a highlighted popular tier'},
   {name:'signup', alt:'Signup form'},
   {name:'checkout', alt:'Checkout order summary before the payment provider'},
@@ -40,17 +73,53 @@ Your app reaches customers as a *recipe* that `saas_core` provisions per tenant.
   {name:'console-instances', alt:'Customer console listing instances with status and URL'},
   {name:'console-billing', alt:'Billing page with subscription and invoices'}
 ]} />
+</Section>
 
+<Section tone="subtle">
 <Logos />
+</Section>
 
-## Where next
+<Section title="Built for coding agents too">
+<div className="split">
+<div>
 
-- Not sure where to begin? [Getting started](/getting-started).
-- Want to see it run on your machine? [Local demo](/local-demo).
-- Using a coding agent? [Agents](/agents).
+Point your agent at one file. Every page is also plain Markdown, and the setup prompt keeps it on test keys and fake infrastructure.
 
-<Callout type="info">Not affiliated with or endorsed by Frappe Technologies. "Frappe" and "Frappe Cloud" are their trademarks.</Callout>
+- `/llms.txt`
+- `/<page>.md`
+- "Copy page" on every page
 
----
+[Open the agent guide →](/agents/)
 
-**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on frappe-saaskit](https://github.com/tridz-open/frappe-saaskit/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
+</div>
+<div>
+
+```text
+Read https://frappesaas.tridz.in/llms.txt, then follow
+https://frappesaas.tridz.in/agents.md to set up a local demo.
+Use test keys only and never touch a real Frappe Cloud team.
+```
+
+</div>
+</div>
+</Section>
+
+<Section tone="subtle">
+
+> [!WARNING]
+> **Alpha software. Use at your own risk.** All three repos are early alpha. Expect breaking changes with no migration path. Pin exact tags, use test-mode payment keys only, and try everything on throwaway sites first. We are not accepting pull requests; please file issues. See [Versions](/status/versions/) and [Status](/status/).
+
+</Section>
+
+<Section tone="center" title="Ship your Frappe app as a product." sub="Start with the starter in fixture mode. It takes two commands.">
+
+`npm install && npm run dev`
+
+<div className="hero-cta">
+  <a className="btn btn--primary" href="/getting-started/">Get started</a>
+  <a className="btn btn--secondary" href="https://github.com/tridz-open/frappe-saaskit" rel="noopener">View on GitHub</a>
+</div>
+
+<AlphaFooter repo="saas_core" />
+
+</Section>

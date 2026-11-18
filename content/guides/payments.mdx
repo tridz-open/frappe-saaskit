@@ -1,0 +1,82 @@
+---
+title: Payments (test mode)
+description: "Take test-mode payments with Frappe SaaS: configure Razorpay, Stripe (experimental) or the fake gateway, point the webhook and pay with a test card."
+---
+
+# Payments (test mode)
+
+<p className="lede">saas_core takes payment through a Gateway Account. Razorpay in order checkout mode is the verified gateway; Stripe and Razorpay subscription mode are experimental.</p>
+
+> [!WARNING]
+> Use **test-mode keys only** (`rzp_test_*`) while the kit is alpha. Live keys are refused unless explicitly allowed.
+
+<Steps>
+
+### Create test keys
+
+Create a Razorpay test account and test keys. <Badge status="untested" />
+
+### Configure a gateway
+
+Put the keys in site_config, run the `bootstrap_gateway` admin op, then blank the secrets. Pick your gateway:
+
+<Tabs items={['Razorpay', 'Stripe', 'Fake']} storageKey="gateway">
+  <Tabs.Tab>
+
+<Badge status="verified" /> in `order` checkout mode (test mode).
+
+```bash
+bench --site <site> set-config saas_core_razorpay_key_id rzp_test_xxx
+bench --site <site> set-config saas_core_razorpay_key_secret <secret>
+bench --site <site> set-config saas_core_razorpay_webhook_secret <secret>
+# POST /api/method/saas_core.api.v1.admin.ops.run {"op":"bootstrap_gateway"}  (System Manager)
+bench --site <site> set-config saas_core_razorpay_key_secret ""
+bench --site <site> set-config saas_core_razorpay_webhook_secret ""
+```
+
+Webhook URL: `https://<site>/api/method/saas_core.webhooks.razorpay`.
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+<Badge status="experimental" /> Never run live. No refunds, so cancel-with-refund fails with a clear error.
+
+```bash
+bench --site <site> set-config saas_core_experimental "stripe"
+```
+
+Webhook URL: `https://<site>/api/method/saas_core.webhooks.stripe`.
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+A reference gateway for tests. It never charges and is refused in live mode.
+
+```bash
+bench --site <site> set-config saas_core_experimental "fake_gateway"
+```
+
+`all` does not enable it; opt in by name.
+
+  </Tabs.Tab>
+</Tabs>
+
+### Point the webhook
+
+A local site needs a public tunnel. <Badge status="untested" />
+
+### Pay
+
+Use the provider's published test card or UPI.
+
+</Steps>
+
+Billing is monthly in advance; cancel refunds unused whole days pro rata; upgrades are charged by payment link. Receipts only, no tax invoices. See [Billing](/billing/).
+
+## The gateway contract
+
+The interface for adding or understanding a gateway lives in [saas_core docs/gateways](https://github.com/tridz-open/saas_core/tree/main/docs/gateways). See also [Payment gateways](/concepts/gateways/) and [Adding a gateway](/guides/adding-a-gateway/).
+
+Sources: [README](https://github.com/tridz-open/saas_core#readme), [STATUS.md](https://github.com/tridz-open/saas_core/blob/main/docs/STATUS.md), [gateways README](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/README.md).
+
+<AlphaFooter repo="saas_core" />

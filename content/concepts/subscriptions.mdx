@@ -1,0 +1,41 @@
+---
+title: Subscriptions
+description: "How Frappe SaaS subscriptions work: statuses, idempotent payment events, receipts instead of invoices, and which renewal paths are experimental."
+---
+
+# Subscriptions
+
+<p className="lede">A subscription ties a tenant to a plan and a gateway, and tracks what has been paid for which period.</p>
+
+## Fields and statuses
+
+`status` is `trialing`, `active`, `past_due` or `canceled`. Other fields: `period_end`, `cancel_at_period_end`, `dunning_stage`.
+
+## Payment events
+
+Every gateway proof, whether a webhook or the browser callback, becomes one Payment Event named `<gateway>:<event_id>`. A second insert is detected as a duplicate and does nothing, so only the first enqueues processing.
+
+## Event kinds
+
+| Kind | Meaning |
+|---|---|
+| `checkout.completed` | Customer authorised or paid at checkout |
+| `payment.succeeded` | A charge or renewal succeeded |
+| `payment.failed` | A charge failed (starts dunning) |
+| `subscription.canceled` | The provider subscription ended |
+| `subscription.updated` | The provider subscription changed |
+| `refund` | A refund processed or failed |
+| `ignored` | Not actionable; stored for audit |
+
+## Receipts, not invoices
+
+saas_core issues receipts only. `invoices.pdf` generates no PDF: it redirects to the gateway-hosted payment page when its https host is allowlisted, otherwise it answers 404 `not_available`. <Badge status="stub" />
+
+## Renewals
+
+> [!NOTE]
+> In the verified Razorpay `order` mode, the automated renewal paths (`razorpay_subscription`, `invoice_renewals`, `expiry_sweep`) are **experimental** and off by default. See [Billing](/billing/).
+
+Sources: [ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/ARCHITECTURE.md), [gateway CONTRACT.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/CONTRACT.md), [STATUS.md](https://github.com/tridz-open/saas_core/blob/main/docs/STATUS.md).
+
+<AlphaFooter repo="saas_core" />

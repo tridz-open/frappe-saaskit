@@ -1,0 +1,58 @@
+---
+title: Adding a gateway
+description: "How to add a payment gateway to Frappe SaaS from your own app: gateway module, hooks.py registration, Gateway Account, webhook and conformance test."
+---
+
+# Adding a gateway
+
+<p className="lede">Ship a gateway from your own Frappe app, without touching saas_core.</p>
+
+This page summarises the upstream guide. Code listings stay upstream so they cannot drift: [ADDING_A_GATEWAY.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/ADDING_A_GATEWAY.md). The rules your class must follow are on [Payment gateways](/concepts/gateways/).
+
+<Steps>
+
+### Create the gateway module
+
+Subclass `saas_core.gateways.base.Gateway`, set `name` and `supports` (a frozenset of known capabilities), implement the five abstract methods and send all HTTP through `self.http.request` so tests can inject a fake. Take `event_id` from the signed body.
+
+### Register it in your app's hooks.py
+
+One line, a dotted path to the class. A plugin cannot reuse `razorpay`, `stripe`, `manual` or `fake`.
+
+```python
+saas_core_gateways = {"mygw": "my_app.gateways.mygw.MyGwGateway"}
+```
+
+Then run `bench --site <site> migrate` (or `bench clear-cache` and restart) so Frappe reloads hooks.
+
+### Create the Gateway Account
+
+In Desk, create a Gateway Account with `Gateway = mygw`, `Mode = test`, the provider's test keys and `Enabled` checked. Make it the default with `saas_core_default_gateway`.
+
+### Point the provider's webhook at saas_core
+
+```text
+https://<your-site>/api/method/saas_core.webhooks.receive?gateway=mygw
+```
+
+### Write and run the conformance test
+
+Subclass `saas_core.gateways.conformance.GatewayConformance` (class name starts with `Test`). Pass means zero failures; each skip must be explained by a capability you did not declare.
+
+### Run the test-mode checklist
+
+Use test keys only. Check that the webhook creates a `mygw:<event_id>` Payment Event, that a replay returns `duplicate`, that a tampered body gets 401, that cancel-with-refund never double refunds, and that no log contains a secret.
+
+</Steps>
+
+> [!TIP]
+> Troubleshooting (unknown gateway, name mismatch, missing account, 400 and 401 on webhooks) is a table at the end of the upstream guide.
+
+<Cards num={2}>
+  <Cards.Card title="Hand it to a coding agent" href="https://github.com/tridz-open/saas_core/blob/main/docs/gateways/AGENT_PROMPT.md" icon={<Icon name="Bot" />}>A ready prompt for adding a gateway.</Cards.Card>
+  <Cards.Card title="Gateway contract" href="https://github.com/tridz-open/saas_core/blob/main/docs/gateways/CONTRACT.md" icon={<Icon name="FileText" />}>Authoritative rules for capabilities, money and webhooks.</Cards.Card>
+</Cards>
+
+Sources: [ADDING_A_GATEWAY.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/ADDING_A_GATEWAY.md), [CONTRACT.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/CONTRACT.md).
+
+<AlphaFooter repo="saas_core" />
