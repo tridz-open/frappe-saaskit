@@ -5,8 +5,8 @@ description: "Copy-paste prompt for a coding agent to set up Frappe SaaS locally
 
 ## Point an agent at these docs
 
-- Give it <https://tridz-open.github.io/frappe-saaskit/llms.txt>.
-- Every page is also raw Markdown: add `.md` to the page name, for example <https://tridz-open.github.io/frappe-saaskit/architecture.md>.
+- Give it <https://frappesaas.tridz.in/llms.txt>.
+- Every page is also raw Markdown: add `.md` to the page name, for example <https://frappesaas.tridz.in/architecture.md>.
 - For SDK questions tell it to read `saas_core/sdk` and its releases, never the archived SDK repo.
 
 ## Setup prompt

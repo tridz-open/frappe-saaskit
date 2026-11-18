@@ -1,7 +1,7 @@
 // After `next build` (static export to ./out): publish each page's source as <page>.md (MDX converted to plain Markdown).
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 
-const SITE = process.env.SITE_URL || 'https://tridz-open.github.io/frappe-saaskit'
+const SITE = process.env.SITE_URL || 'https://frappesaas.tridz.in'
 const logosMd = `Used by: [Tridz](https://tridz.com), [URY](https://ury.app), [Huf](https://huf.ai), [Franchise Media](https://www.thefranchisemedia.com/). See [Used by](${SITE}/used-by.md).`
 
 function toPlain(src) {
