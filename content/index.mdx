@@ -1,0 +1,57 @@
+---
+description: "Frappe SaaS lets you launch your Frappe app as SaaS on Frappe Cloud. Three open-source alpha repos cover signup, billing, tenant provisioning and a customer console."
+---
+
+import { Gallery, Shot } from '../app/_components/Shot'
+import { Logos } from '../app/_components/Logos'
+
+# Frappe SaaS
+
+Launch your Frappe app as SaaS on [Frappe Cloud](https://frappecloud.com): customers sign up, pay, and each gets their own isolated Frappe site, created automatically.
+
+> [!WARNING]
+> All three pieces are early alpha. Expect breaking changes with no migration path. Pin exact tags (see [Versions](/versions)), use test-mode payment keys only, and try everything on throwaway sites first.
+
+**Who it is for:** teams that build a Frappe or ERPNext app and want to sell it as a subscription product, with one site per customer. If you only host a couple of sites by hand, you do not need this. It is used in production by one product (see [Used by](/used-by)).
+
+<Shot name="landing" alt="Frappe SaaS starter landing page for a Frappe app sold as SaaS" caption="The starter's landing page, in fixture mode." />
+
+## The three pieces
+
+| Piece | In one line |
+|---|---|
+| [`saas_core`](https://github.com/tridz-open/saas_core) | Frappe v16 control-plane app: plans, signup, billing, tenant provisioning and a versioned HTTP API. Also hosts the TypeScript SDK in `sdk/`. |
+| [`fcctl`](https://github.com/tridz-open/fcctl) | Python CLI and library that drives Frappe Cloud v2; `saas_core` uses it to create customer sites. |
+| [`frappe-saaskit-starter`](https://github.com/tridz-open/frappe-saaskit-starter) | React front end (landing, pricing, signup, checkout, customer console) built on the SDK. Fork and brand it. |
+
+## The flow
+
+`browser -> starter + SDK -> saas_core -> fcctl -> Frappe Cloud`
+
+Your app reaches customers as a *recipe* that `saas_core` provisions per tenant. Details: [Architecture](/architecture).
+
+## What customers see
+
+<Gallery items={[
+  {name:'pricing', alt:'Pricing page with three plans and a highlighted popular tier'},
+  {name:'signup', alt:'Signup form'},
+  {name:'checkout', alt:'Checkout order summary before the payment provider'},
+  {name:'provisioning-in-progress', alt:'Provisioning progress with per-step status'},
+  {name:'console-instances', alt:'Customer console listing instances with status and URL'},
+  {name:'console-billing', alt:'Billing page with subscription and invoices'}
+]} />
+
+<Logos />
+
+## Where next
+
+- Not sure where to begin? [Getting started](/getting-started).
+- Want to see it run on your machine? [Local demo](/local-demo).
+- Using a coding agent? [Agents](/agents).
+
+> [!NOTE]
+> Not affiliated with or endorsed by Frappe Technologies. "Frappe" and "Frappe Cloud" are their trademarks.
+
+---
+
+**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on frappe-saaskit](https://github.com/tridz-open/frappe-saaskit/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.

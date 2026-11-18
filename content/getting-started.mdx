@@ -1,0 +1,26 @@
+---
+description: "Which path to take when launching your Frappe app as SaaS on Frappe Cloud with Frappe SaaS: look at the UI, run the full demo, or wire up your own app."
+---
+
+import { Gallery, Shot } from '../app/_components/Shot'
+
+# Getting started
+
+Pick the path that matches what you want today.
+
+<Shot name="pricing" alt="Starter pricing page, the first thing you see in fixture mode" caption="Fixture mode shows pages like this with no backend." />
+
+| I want to... | Do this | Needs |
+|---|---|---|
+| Just look at the customer UI | Run the starter in fixture mode: `git clone` [frappe-saaskit-starter](https://github.com/tridz-open/frappe-saaskit-starter), then `npm ci && npm run dev` | Node 20.19+ or 22.12+ |
+| See the whole flow locally, no Frappe Cloud | Follow the [Local demo](/local-demo) (fake `fcctl`) | Frappe v16 bench, MariaDB, Redis, Node, Python 3.11+ |
+| Put my own app behind it | [Writing a recipe](/writing-a-recipe), then the demo with your template | The above |
+| Take real payments (test mode) | [Payments](/payments) | Razorpay test account |
+| Provision real sites | `saas_core` [DEPLOY.md](https://github.com/tridz-open/saas_core/blob/main/DEPLOY.md) and the [fcctl README](https://github.com/tridz-open/fcctl#readme) | A Frappe Cloud v2 team |
+| Use `fcctl` alone | The [fcctl README](https://github.com/tridz-open/fcctl#readme) | A Frappe Cloud v2 account |
+
+Always check [Versions](/versions) first and pin the tags listed there.
+
+---
+
+**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.

@@ -1,0 +1,41 @@
+---
+description: "How Frappe SaaS fits together to run your Frappe app as SaaS on Frappe Cloud: browser, starter and SDK, saas_core control plane, fcctl and Frappe Cloud."
+---
+
+import { Gallery, Shot } from '../app/_components/Shot'
+
+# Architecture
+
+```text
+browser -> starter + SDK -> saas_core (HTTP API, webhooks) -> fcctl -> Frappe Cloud
+                                  ^
+                          payment gateway callbacks
+```
+
+- **Frontends talk only to the `saas_core` HTTP API** (versioned OpenAPI contract, API `2.0.0-alpha.1`). The starter and the TypeScript SDK (`@frappe-saaskit/client`, `react`, `mock`) are one such frontend.
+- **`saas_core`** runs on one "control plane" Frappe site. It owns plans, templates, tenants, subscriptions, billing and provisioning jobs.
+- **Pay then provision:** checkout creates a pending Tenant; the gateway callback or webhook is stored once as a Payment Event; the processor activates the Subscription; the first success enqueues a `provision` job that drives `fcctl` and emails the owner a one-time setup link. Jobs are auditable and resume-safe.
+- **`fcctl`** is the only thing that talks to Frappe Cloud. It restores a golden backup into a new site, runs hooks and health checks.
+- **Tenant sites** are separate Frappe sites, one per customer, created on Frappe Cloud.
+- **Recipes** are how your own app plugs in. See [Writing a recipe](/writing-a-recipe).
+
+## What the customer sees
+
+<Shot name="provisioning-in-progress" alt="Provisioning progress screen showing per-step status while the tenant site is created" caption="Provisioning progress, driven by saas_core jobs." />
+<Shot name="console-instances" alt="Customer console instances list with status and site URL" caption="The customer console lists each tenant site." />
+
+## Mock modes
+
+| Mode | Where | What it does |
+|---|---|---|
+| Fixture mode | starter | In-memory demo data, no backend |
+| `@frappe-saaskit/mock` | SDK | Mock client for tests and UI work |
+| `saas_core_fake_fcctl=1` | saas_core site_config | In-memory fake instead of Frappe Cloud |
+| `fcctl.testing.FakeFrappeCloud` | fcctl | Fake Frappe Cloud for tests |
+| `saas_core_local_bench` | saas_core | Experimental: real sites on the same bench |
+
+Authoritative diagrams and contracts: [saas_core docs/ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md).
+
+---
+
+**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.

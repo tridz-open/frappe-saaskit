@@ -1,0 +1,98 @@
+---
+description: "Step-by-step local demo of Frappe SaaS: run a Frappe v16 bench with saas_core, a fake Frappe Cloud and the starter app, to try launching a Frappe app as SaaS."
+---
+# Local demo
+
+A demo-mode stack on your machine. **No real Frappe Cloud is contacted** and only test-mode payment keys are used.
+
+> [!WARNING]
+> Each step is tagged **tested** (run during an audit) or **untested** (written from the READMEs, may need adjusting). Report problems as issues.
+
+Use the tags from [Versions](/versions). Demo clones below use `saas_core v0.1.0-alpha.2`; `v0.1.0-alpha.3` (with the SDK) is also released.
+
+## 1. Clone, pinned (tested as clones)
+
+```bash
+mkdir saas-kit-demo && cd saas-kit-demo
+git clone --branch v0.1.0-alpha.2 --depth 1 https://github.com/tridz-open/saas_core.git
+git clone --branch v0.1.0-alpha.4 --depth 1 https://github.com/tridz-open/fcctl.git
+git clone --branch v0.1.0-alpha.2 --depth 1 https://github.com/tridz-open/frappe-saaskit-starter.git
+```
+
+## 2. fcctl, library only (tested)
+
+```bash
+python3 -m venv .venv-fcctl && . .venv-fcctl/bin/activate
+pip install "git+https://github.com/tridz-open/fcctl@v0.1.0-alpha.4"
+fcctl --version        # fcctl 0.1.0a4
+python -c "from fcctl.testing import FakeFrappeCloud; print('fake ok')"
+deactivate
+```
+
+Do not run `fcctl init` or `fcctl auth login` for the demo.
+
+## 3. Frappe v16 bench with saas_core (untested)
+
+Needs MariaDB, Redis, Node and Python installed. Bench flags depend on your setup.
+
+```bash
+bench init --frappe-branch version-16 bench && cd bench
+bench new-site saas.localhost
+bench get-app https://github.com/tridz-open/saas_core --branch v0.1.0-alpha.2
+bench --site saas.localhost install-app saas_core
+bench --site saas.localhost migrate
+```
+
+`fcctl` is pulled in automatically at its pinned tag. Check that `list-apps` shows `saas_core` and the roles `SaaS Admin`, `SaaS Customer`, `SaaS Platform Worker` exist.
+
+## 4. Demo mode config (untested)
+
+```bash
+bench --site saas.localhost set-config saas_core_fake_fcctl 1
+bench --site saas.localhost set-config saas_core_signup_mode open
+bench --site saas.localhost set-config saas_core_site_domain localhost
+bench start
+curl -s http://saas.localhost:8000/api/method/ping
+curl -s http://saas.localhost:8000/api/method/saas_core.api.v1.config
+```
+
+Do not set `saas_core_local_bench`, `saas_core_fc_team`, `saas_core_fc_server` or `saas_core_session_key`.
+
+## 5. A template and a plan (untested; undocumented upstream)
+
+Create one public Template (`slug=starter`, `is_public=1`, hooks ending with `core.scheduler_resume` then `core.maintenance_off`) and one Plan that references it, in the desk at `/app`. Fields: [TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md). Whether a template without a golden backup validates is **untested**. Do not run `sync_plans` without Razorpay keys. Verify with:
+
+```bash
+curl -s "http://saas.localhost:8000/api/method/saas_core.api.v1.plans.list?currency=INR&interval=month"
+```
+
+## 6. Payments (optional, untested)
+
+See [Payments](/payments). Test keys (`rzp_test_*`) only; a webhook needs a public tunnel.
+
+## 7. Starter, fixture mode (tested)
+
+```bash
+cd ../frappe-saaskit-starter
+npm ci
+npm run dev        # http://localhost:5173
+npm run build
+```
+
+## 8. Starter, live mode (build tested, runtime untested)
+
+```bash
+cp .env.example .env.local
+# VITE_DATA_ADAPTER=saaskit
+# SAAS_BACKEND_URL=http://saas.localhost:8000
+VITE_DATA_ADAPTER=saaskit npm run build   # tested
+npm run dev                               # untested against the bench
+```
+
+Expected (untested): the pricing page shows your plan, signup creates a user, and provisioning reaches "active" via the fake backend, with no real site created.
+
+A newer starter tag will take the SDK from its release tarballs.
+
+---
+
+**Use at your own risk.** Frappe SaaS is early alpha software, provided "as is" without warranty of any kind. We are not accepting pull requests or outside contributions. If you find a problem, please [file an issue on saas_core](https://github.com/tridz-open/saas_core/issues), or [on the docs repo](https://github.com/tridz-open/frappe-saaskit/issues) for mistakes in these pages.
