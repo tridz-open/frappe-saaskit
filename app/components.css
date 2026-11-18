@@ -124,12 +124,11 @@ article h2 .badge, article h3 .badge { margin-inline-start: 0.5rem; font-size: 0
 .diagram svg .section0, .diagram svg .section2 { fill: var(--surface-subtle) !important; }
 .diagram svg .section1, .diagram svg .section3 { fill: var(--surface) !important; }
 .diagram svg .task { stroke: var(--accent) !important; }
-.diagram svg .done0, .diagram svg .done1, .diagram svg .done2, .diagram svg .done3 { fill: var(--border-strong) !important; stroke: var(--muted) !important; }
-.diagram svg .active0, .diagram svg .active1, .diagram svg .active2, .diagram svg .active3 { fill: var(--accent) !important; stroke: var(--accent-hover) !important; }
-.diagram svg .crit0, .diagram svg .crit1, .diagram svg .crit2, .diagram svg .crit3 { fill: var(--c-danger) !important; stroke: var(--c-danger-ink) !important; }
+.diagram svg .done0, .diagram svg .done1, .diagram svg .done2, .diagram svg .done3 { fill: #d4d4d8 !important; stroke: #71717a !important; }
+.diagram svg .active0, .diagram svg .active1, .diagram svg .active2, .diagram svg .active3 { fill: #c7d2fe !important; stroke: var(--accent) !important; }
+.diagram svg .crit0, .diagram svg .crit1, .diagram svg .crit2, .diagram svg .crit3 { fill: var(--c-danger-bg) !important; stroke: var(--c-danger) !important; }
 .diagram svg .milestone { fill: var(--accent) !important; }
 .diagram svg text.taskText, .diagram svg text.taskTextOutsideRight, .diagram svg text.taskTextOutsideLeft { fill: var(--ink) !important; }
-.diagram svg .active0 ~ text.taskText, .diagram svg text.activeText0, .diagram svg text.activeText1, .diagram svg text.critText0, .diagram svg text.critText1 { fill: var(--accent-ink) !important; }
 .diagram svg .sectionTitle, .diagram svg .tick text { fill: var(--muted) !important; }
 
 /* ---------- Steps / tabs / details tweaks ---------- */
