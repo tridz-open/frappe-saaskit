@@ -44,14 +44,29 @@ description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, g
 <Repos />
 </Section>
 
-<Section title="What your customers see" sub="Captured from the starter in fixture mode, no backend.">
-<Gallery cols={3} items={[
-  {name:'pricing', alt:'Pricing page with three plans and a highlighted popular tier'},
-  {name:'signup', alt:'Signup form'},
-  {name:'checkout', alt:'Checkout order summary before the payment provider'},
-  {name:'provisioning-in-progress', alt:'Provisioning progress with per-step status'},
-  {name:'console-instances', alt:'Customer console listing instances with status and URL'},
-  {name:'console-billing', alt:'Billing page with subscription and invoices'}
+<Section title="What your customers see" sub="Captured from the starter in fixture mode, no backend. Click any screenshot to page through all of them.">
+<Gallery cols={3} featured={6} items={[
+  {name:'pricing', alt:'Pricing page with three plans and a highlighted popular tier', caption:'Pricing, with a highlighted popular plan.'},
+  {name:'signup', alt:'Signup form with email and password', caption:'Signup form.'},
+  {name:'checkout', alt:'Checkout order summary before the payment provider', caption:'Checkout summary before the payment provider.'},
+  {name:'provisioning-in-progress', alt:'Provisioning progress with per-step status', caption:'Provisioning progress, step by step.'},
+  {name:'console-instances', alt:'Customer console listing workspaces with status and address', caption:'The customer console: workspaces with status and address.'},
+  {name:'console-billing', alt:'Billing page with subscription and invoices', caption:'Billing: subscription and invoices.'},
+  {name:'console-create-instance', alt:'Add a workspace form with workspace URL and plan selector', caption:'Add a workspace: choose an address and a plan.'},
+  {name:'console-instance-detail', alt:'Workspace detail page with status, address and a danger zone for deleting', caption:'Workspace detail, including the danger zone.'},
+  {name:'console-backups', alt:'Backups page listing an automatic backup with size and a Restore action', caption:'Backups: the latest backups with a Restore action and Back up now.'},
+  {name:'console-team', alt:'Team page with members, roles, invite form and pending invites', caption:'Team: members, roles and invites.'},
+  {name:'console-account', alt:'Account page with profile tab, sign-in email and delete account section', caption:'Account: profile, password, devices and account deletion.'},
+  {name:'console-plan', alt:'Change plan page comparing Starter, Pro and Business with the current plan marked', caption:'Plan change: compare plans and switch.'},
+  {name:'console-support', alt:'Help and support page with ticket list and a new request form', caption:'Help and support: tickets and a new request form.'},
+  {name:'login', alt:'Log in form with email, password and forgot password link', caption:'Log in.'},
+  {name:'forgot-password', alt:'Reset your password form asking for an email address', caption:'Forgot password: request a reset link.'},
+  {name:'signup-invite-only', alt:'Signup page when the product is invite only', caption:'Signup in invite-only mode.'},
+  {name:'provisioning-ready', alt:'Provisioning finished screen with the workspace ready to open', caption:'Provisioning finished: the workspace is ready.'},
+  {name:'console-empty', alt:'Empty state of the console before the first workspace exists', caption:'Empty state: no workspace yet.'},
+  {name:'console-backups-empty', alt:'Backups empty state explaining backups appear once the workspace is live', caption:'Empty state: no backups yet.'},
+  {name:'landing', alt:'Frappe SaaS starter landing page for a Frappe app sold as SaaS', caption:'The starter landing page.'},
+  {name:'not-found', alt:'Page not found error screen with links back home and to support', caption:'Error state: page not found.'}
 ]} />
 </Section>
 

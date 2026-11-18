@@ -4,6 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import 'nextra-theme-docs/style.css'
+import 'photoswipe/dist/photoswipe.css'
 import './globals.css'
 import './components.css'
 
