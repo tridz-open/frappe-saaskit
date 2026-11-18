@@ -1,4 +1,4 @@
-export { Alert, AlertFromBlockquote, Callout } from './Alert'
+export { Alert, Blockquote, Callout } from './Alert'
 export { Badge } from './Badge'
 export { Cards } from './Cards'
 export { Icon } from './Icon'

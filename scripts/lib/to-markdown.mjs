@@ -3,7 +3,7 @@
 //
 // Contract: every custom component must have a transform here. A component without one is LEFT AS RAW TEXT so that the
 // guard in postbuild.mjs fails the build loudly instead of shipping JSX in a .md file.
-import { versions } from '../../app/_data/versions.mjs'
+import { repos, versions } from '../../app/_data/versions.mjs'
 import { statusRows } from '../../app/_data/status.mjs'
 
 const ALERT = { default: 'NOTE', info: 'NOTE', note: 'NOTE', tip: 'TIP', important: 'IMPORTANT', warning: 'WARNING', error: 'CAUTION', caution: 'CAUTION' }
@@ -141,6 +141,14 @@ function renderChildren(n, ctx) {
   return n.children.map((c) => render(c, ctx)).join('')
 }
 
+// List-like containers: drop whitespace-only text between items and join the items with single newlines.
+function renderItems(n, ctx) {
+  return n.children
+    .filter((c) => c.name)
+    .map((c) => render(c, ctx).trim())
+    .join('\n')
+}
+
 function render(n, ctx) {
   if (n.text !== undefined) return n.text
   const kids = () => renderChildren(n, ctx)
@@ -166,7 +174,7 @@ function render(n, ctx) {
       return `\n\n${items.map((i) => `![${i.alt}](${ctx.site}/screens/${i.name}.webp)${i.caption ? `\n\n*${i.caption}*` : ''}`).join('\n\n')}\n\n`
     }
     case 'Cards':
-      return `\n\n${tidy(kids())}\n\n`
+      return `\n\n${renderItems(n, ctx)}\n\n`
     case 'Cards.Card': {
       const body = oneLine(kids())
       return `\n- [${str(n, 'title')}](${str(n, 'href')})${body ? `: ${body}` : ''}\n`
@@ -175,8 +183,12 @@ function render(n, ctx) {
       const links = evalAttr(n, 'links', []).map((l) => `[${l.label}](${l.href})`).join(', ')
       return `\n- **[${str(n, 'name')}](${str(n, 'href')})**: ${str(n, 'description')} (${str(n, 'language')}; ${str(n, 'status')}; ${str(n, 'version')}). ${links}\n`
     }
+    case 'Repos':
+      return `\n\n${repos
+        .map((r) => `- **[${r.name}](${r.href})**: ${r.description} (${r.language}; ${r.status}; ${r.version}). ${r.links.map((l) => `[${l.label}](${l.href})`).join(', ')}`)
+        .join('\n')}\n\n`
     case 'FeatureGrid':
-      return `\n\n${tidy(kids())}\n\n`
+      return `\n\n${renderItems(n, ctx)}\n\n`
     case 'Feature':
       return `\n- **${str(n, 'title')}**: ${oneLine(kids())}\n`
     case 'Steps':
@@ -221,9 +233,9 @@ function render(n, ctx) {
     case 'FileTree.Folder':
     case 'FileTree.File': {
       const depth = ctx.depth ?? 0
-      if (n.name === 'FileTree') return `\n\n${tidy(renderChildren(n, { ...ctx, depth: 0 }))}\n\n`
+      if (n.name === 'FileTree') return `\n\n${n.children.filter((c) => c.name).map((c) => render(c, { ...ctx, depth: 0 })).join('')}\n\n`
       const line = `${'  '.repeat(depth)}- ${str(n, 'name')}${n.name === 'FileTree.Folder' ? '/' : ''}\n`
-      return line + (n.name === 'FileTree.Folder' ? renderChildren(n, { ...ctx, depth: depth + 1 }) : '')
+      return line + (n.name === 'FileTree.Folder' ? n.children.filter((c) => c.name).map((c) => render(c, { ...ctx, depth: depth + 1 })).join('') : '')
     }
     case 'details':
       return `\n\n${kids()}\n\n`

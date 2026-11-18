@@ -178,11 +178,11 @@ article h4 {
   font-weight: 600;
   margin-top: 1.75rem;
 }
-article a:not(.subheading-anchor) {
+article :where(a:not(.subheading-anchor)) {
   color: var(--accent);
   text-underline-offset: 3px;
 }
-article a:not(.subheading-anchor):hover {
+article :where(a:not(.subheading-anchor)):hover {
   color: var(--accent-hover);
 }
 article .lede,

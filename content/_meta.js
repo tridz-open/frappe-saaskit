@@ -7,6 +7,7 @@ export default {
   payments: 'Payments',
   versions: 'Versions',
   agents: 'Agents',
+  'kitchen-sink': { title: 'Kitchen sink', display: 'hidden' },
   reference: 'Reference',
   'used-by': 'Used by'
 }

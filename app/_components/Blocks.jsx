@@ -135,7 +135,9 @@ export function Repos() {
 export function Diagram({ title, caption, description, children }) {
   return (
     <figure className="diagram" role="group" aria-label={title}>
-      <div className="diagram-canvas">{children}</div>
+      <div className="diagram-canvas" role="region" aria-label={`${title} (scrollable)`} tabIndex={0}>
+        {children}
+      </div>
       {caption ? <figcaption>{caption}</figcaption> : null}
       {description ? (
         <details className="diagram-desc">
@@ -150,7 +152,7 @@ export function Diagram({ title, caption, description, children }) {
 export function VersionTable({ data = 'versions' }) {
   if (data === 'status') {
     return (
-      <div className="table-wrap">
+      <div className="table-wrap" role="region" aria-label={data === 'status' ? 'Status matrix' : 'Pinned versions'} tabIndex={0}>
         <table>
           <thead>
             <tr>
@@ -177,7 +179,7 @@ export function VersionTable({ data = 'versions' }) {
     )
   }
   return (
-    <div className="table-wrap">
+    <div className="table-wrap" role="region" aria-label={data === 'status' ? 'Status matrix' : 'Pinned versions'} tabIndex={0}>
       <table>
         <thead>
           <tr>

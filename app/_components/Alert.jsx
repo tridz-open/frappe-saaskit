@@ -1,3 +1,4 @@
+import { cloneElement } from 'react'
 import { Icon } from './Icon'
 
 const TYPES = {
@@ -32,8 +33,21 @@ export function Callout({ type = 'default', title, children }) {
   )
 }
 
-// Rendered by nextra's withGitHubAlert: children = [<b>Warning</b>, ...paragraphs]
-export function AlertFromBlockquote({ type, children }) {
-  const kids = Array.isArray(children) ? children : [children]
-  return <Alert type={type}>{kids.slice(1)}</Alert>
+// Markdown blockquote: GitHub alert syntax (> [!NOTE] then text on the next line or after a blank line) becomes an Alert.
+// Nextra's own withGitHubAlert only matches when the marker is alone in its paragraph, which GitHub itself does not require.
+export function Blockquote(props) {
+  const kids = Array.isArray(props.children) ? props.children : [props.children]
+  const idx = kids.findIndex((k) => k && typeof k === 'object')
+  const p = kids[idx]
+  const pc = p?.props?.children
+  const parts = Array.isArray(pc) ? pc : [pc]
+  const m = typeof parts[0] === 'string' ? /^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*\n?/i.exec(parts[0]) : null
+  if (!m) return <blockquote {...props} />
+  const rest = [parts[0].slice(m[0].length), ...parts.slice(1)].filter((x) => x !== '')
+  return (
+    <Alert type={m[1].toLowerCase()}>
+      {rest.length ? cloneElement(p, { children: rest }) : null}
+      {kids.slice(idx + 1)}
+    </Alert>
+  )
 }
