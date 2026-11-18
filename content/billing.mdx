@@ -26,26 +26,7 @@ charge = ceil(price × days_remaining ÷ cycle_days)
 
 ## Billing timeline
 
-<Diagram height={320} title="Billing timeline for the cancel example" caption="Cancel on 10 March, a 2,999 rupee plan, a 31-day cycle, counted in IST days." description="The customer prepaid the cycle from 1 March to 1 April, 31 days. Days 1 to 10 March are used and kept, 967.42 rupees. Days 11 to 31 March, 21 days, are unused and refunded, 2,031.58 rupees. The cancel milestone is on 10 March and the site runs until 24:00 that day. The renewal on 1 April is not charged.">
-
-```mermaid
-gantt
-  title Cancel on 10 Mar, ₹2,999 plan, 31-day cycle (IST days)
-  dateFormat YYYY-MM-DD
-  axisFormat %d %b
-  tickInterval 5day
-  section Paid
-  Prepaid 1 Mar → 1 Apr        :done,   p, 2026-03-01, 31d
-  section Used
-  Used 10 days (₹967.42):active, u, 2026-03-01, 10d
-  section Refunded
-  Unused 11–31 Mar, 21 days, refund ₹2,031.58:crit,   r, 2026-03-11, 21d
-  section Events
-  Cancel (site runs to midnight) :milestone, m1, 2026-03-10, 0d
-  Renewal not charged           :milestone, m2, 2026-04-01, 0d
-```
-
-</Diagram>
+<Diagram title="Billing timeline for the cancel example" caption="Cancel on 10 March, a 2,999 rupee plan, a 31-day cycle, counted in IST days." description="The customer prepaid the cycle from 1 March to 1 April, 31 days. Days 1 to 10 March are used and kept, 967.42 rupees. Days 11 to 31 March, 21 days, are unused and refunded, 2,031.58 rupees. The cancel milestone is on 10 March and the site runs until 24:00 that day. The renewal on 1 April is not charged." src="billing-timeline" />
 
 <div className="formula">refund = floor(299900 × 21 ÷ 31) = 203158 paise</div>
 

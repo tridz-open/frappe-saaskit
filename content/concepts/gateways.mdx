@@ -19,24 +19,7 @@ description: "How Frappe SaaS payment gateways work: status, the plugin flow, ca
 
 ## How a gateway plugs in
 
-<Diagram height={420} title="Gateway plugin flow" caption="A plugin registers in hooks.py; checkout and webhooks both resolve it through the registry." description="Your app defines a Gateway subclass and registers it through the saas_core_gateways hook. The registry resolves it by name, applies the experimental gate and loads the Gateway Account. Checkout uses the registry to create a session. Incoming webhooks hit the generic receive endpoint, which verifies the signature over the raw bytes; false gives 401. A valid body is parsed into a NormalizedEvent, stored as a Payment Event keyed gateway:event_id and passed to the billing processor, which may call back into the registry for refunds.">
-
-```mermaid
-flowchart LR
-  subgraph App["Your Frappe app"]
-    K["class MyGateway(Gateway)<br/>name, supports"]
-    H["hooks.py<br/>saas_core_gateways"]
-  end
-  H --> R["registry.get_gateway(name)<br/>experimental gate · Gateway Account"]
-  K --> R
-  R --> CO["checkout.create_session"]
-  W["webhooks.receive?gateway=name"] --> V{"verify_webhook<br/>raw bytes, HMAC"}
-  V -- false --> X401[401]
-  V -- true --> PE["parse_event → NormalizedEvent"] --> EV["Payment Event<br/>gateway:event_id"] --> BP["billing processor"]
-  BP -- "refund (if supports)" --> R
-```
-
-</Diagram>
+<Diagram title="Gateway plugin flow" caption="A plugin registers in hooks.py; checkout and webhooks both resolve it through the registry." description="Your app defines a Gateway subclass and registers it through the saas_core_gateways hook. The registry resolves it by name, applies the experimental gate and loads the Gateway Account. Checkout uses the registry to create a session. Incoming webhooks hit the generic receive endpoint, which verifies the signature over the raw bytes; false gives 401. A valid body is parsed into a NormalizedEvent, stored as a Payment Event keyed gateway:event_id and passed to the billing processor, which may call back into the registry for refunds." src="gateway-plugin" />
 
 ## Capabilities
 

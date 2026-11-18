@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dg" viewBox="0 0 856 180" width="856" role="img" aria-label="Customer lifecycle">
+<title>Customer lifecycle</title>
+<style>.dg{--k-ink:#18181b;--k-mut:#5b5b63;--k-line:#71717a;--k-bg:#ffffff;--k-box:#ffffff;--k-bs:#b9b9b3;--k-grp:#f4f4f2;--k-gs:#c4c4be;--k-acc:#eef2ff;--k-as:#4f46e5;--k-ok:#dcfce7;--k-os:#16a34a;--k-warn:#fef3c7;--k-ws:#d97706;--k-bad:#fef2f2;--k-bds:#dc2626}
+@media (prefers-color-scheme:dark){.dg{--k-ink:#ededef;--k-mut:#a1a1aa;--k-line:#8b8b96;--k-bg:#18181b;--k-box:#202024;--k-bs:#52525b;--k-grp:#141417;--k-gs:#3f3f46;--k-acc:rgba(129,140,248,.14);--k-as:#818cf8;--k-ok:rgba(34,197,94,.14);--k-os:#4ade80;--k-warn:rgba(245,158,11,.14);--k-ws:#fbbf24;--k-bad:rgba(239,68,68,.14);--k-bds:#f87171}}
+.dg text{font-family:var(--font-geist-sans),Geist,system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--k-ink);font-size:12.5px}
+.dg .dg-p{font-weight:560}
+.dg .dg-s{fill:var(--k-mut);font-size:11px}
+.dg .dg-l{fill:var(--k-mut);font-size:11.5px}
+.dg .dg-h{paint-order:stroke;stroke:var(--k-bg);stroke-width:5px;stroke-linejoin:round}
+.dg .dg-n{fill:var(--k-as);font-weight:650}
+.dg .dg-gt{fill:var(--k-mut);font-size:11px;font-weight:560;letter-spacing:.02em}
+.dg .dg-box{fill:var(--k-box);stroke:var(--k-bs);stroke-width:1.2}
+.dg .dg-acc{fill:var(--k-acc);stroke:var(--k-as)}
+.dg .dg-ok{fill:var(--k-ok);stroke:var(--k-os)}
+.dg .dg-warn{fill:var(--k-warn);stroke:var(--k-ws)}
+.dg .dg-bad{fill:var(--k-bad);stroke:var(--k-bds)}
+.dg .dg-grp{fill:var(--k-grp);stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:6 4}
+.dg .dg-ln{fill:none;stroke:var(--k-line);stroke-width:1.3}
+.dg .dg-dash{stroke-dasharray:6 4}
+.dg .dg-life{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}
+.dg .dg-mk{fill:var(--k-line)}
+.dg .dg-dot{fill:var(--k-line)}
+.dg .dg-bar{stroke-width:1.2}
+.dg .dg-tick{stroke:var(--k-line);stroke-width:1.2}
+.dg .dg-guide{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}</style>
+<defs><marker id="ar-life" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path class="dg-mk" d="M0,0 L8,4 L0,8 L2,4 z"/></marker></defs>
+<path class="dg-ln" d="M133,48 L147,48" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M271,48 L285,48" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M409,48 L423,48" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M547,48 L561,48" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M685,48 L699,48" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M442,77 L442,101" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M464,107 L464,83" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M512,77 L512,101" marker-end="url(#ar-life)"/>
+<path class="dg-ln" d="M534,107 L534,83" marker-end="url(#ar-life)"/>
+<!-- Sign up: x=20 y=24 right=128 bottom=72 -->
+<rect class="dg-box" x="20" y="24" width="108" height="48" rx="7"/>
+<text class="dg-p" x="74" y="52" text-anchor="middle">Sign up</text>
+<!-- Checkout & pay: x=158 y=24 right=266 bottom=72 -->
+<rect class="dg-box" x="158" y="24" width="108" height="48" rx="7"/>
+<text class="dg-p" x="212" y="52" text-anchor="middle">Checkout &amp; pay</text>
+<!-- Provision: x=296 y=24 right=404 bottom=72 -->
+<rect class="dg-box" x="296" y="24" width="108" height="48" rx="7"/>
+<text class="dg-p" x="350" y="52" text-anchor="middle">Provision</text>
+<!-- Active: x=434 y=24 right=542 bottom=72 -->
+<rect class="dg-ok" x="434" y="24" width="108" height="48" rx="7"/>
+<text class="dg-p" x="488" y="52" text-anchor="middle">Active</text>
+<!-- Cancel & refund: x=572 y=24 right=680 bottom=72 -->
+<rect class="dg-warn" x="572" y="24" width="108" height="48" rx="7"/>
+<text class="dg-p" x="626" y="52" text-anchor="middle">Cancel &amp; refund</text>
+<!-- Terminate: x=710 y=24 right=834 bottom=72 -->
+<rect class="dg-bad" x="710" y="24" width="124" height="48" rx="7"/>
+<text class="dg-p" x="772" y="44.5" text-anchor="middle">Terminate</text>
+<text class="dg-s" x="772" y="59.5" text-anchor="middle">two-person approval</text>
+<!-- Renew monthly: x=364 y=112 right=472 bottom=160 -->
+<rect class="dg-box" x="364" y="112" width="108" height="48" rx="7"/>
+<text class="dg-p" x="418" y="140" text-anchor="middle">Renew monthly</text>
+<!-- Change plan: x=504 y=112 right=612 bottom=160 -->
+<rect class="dg-box" x="504" y="112" width="108" height="48" rx="7"/>
+<text class="dg-p" x="558" y="140" text-anchor="middle">Change plan</text>
+</svg>
