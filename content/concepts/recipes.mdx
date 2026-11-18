@@ -1,12 +1,56 @@
 ---
 title: Templates and recipes
-description: "Frappe SaaS templates and recipes: template fields, hooks, the Recipe class and the Frappe Cloud Pilot gotchas."
+description: "Frappe SaaS templates and recipes: template fields, ordered hooks, the Recipe class and the Frappe Cloud Pilot gotchas."
 ---
 
 # Templates and recipes
 
 <p className="lede">A template says what a tenant site is; a recipe is optional code your app registers to customise it.</p>
 
-<Badge status="stub" /> This page is being written.
+## Template
+
+| Field | Meaning |
+|---|---|
+| `slug` | Unique id |
+| `title`, `description` | Display text |
+| `is_public` | Default 0. Checkout rejects templates that are not public |
+| `min_plan` | Lowest plan allowed to use the template |
+| `recipe` | Name of a registered recipe |
+| `apps` | Rows `{app, source_repo, branch, version, install_order}`; at least one, no duplicates |
+| `backup_source` | Golden site to restore from. Empty means a fresh site. See [Golden backup](/concepts/golden-backup/) |
+| `hooks` | Ordered `[{name, version, args}]`, run after restore |
+| `site_admin` | Hooks receive `ctx.site_admin`. Required when a recipe hook uses it |
+| `sanitize_config` | Passed to the post-restore sanitize step |
+| `health_checks` | `[{name, path, expect}]` |
+| `site_config` | Merged into the new site's site_config |
+
+## Hooks
+
+`core.*` hooks are built into fcctl. Recipe hooks are `name@version` entries from the recipe's `hooks()` map. End every template with these two, or the site stays at 503:
+
+```json
+[{"name": "core.scheduler_resume", "version": "1"}, {"name": "core.maintenance_off", "version": "1"}]
+```
+
+## Recipe class
+
+Registered through the entry-point group `saas_core.recipes`. It has `slug`, `template_defaults()`, `hooks()`, `tenant_config(tenant, plan, fields)` and `signup_schema()`.
+
+## Pilot gotchas
+
+> [!WARNING]
+> 1. `core.set_host_name` and `core.set_fresh_encryption_key` are rejected by Pilot. Remove them.
+> 2. Without the trailing `core.scheduler_resume` and `core.maintenance_off` hooks the site stays at 503.
+> 3. Set `site_admin` when recipe hooks use `ctx.site_admin`.
+> 4. `is_public` defaults to 0 and checkout rejects non-public templates.
+> 5. Health checks are dicts, not callables, and are retried.
+
+## Next
+
+<Cards num={2}>
+  <Cards.Card title="Writing a recipe" href="/guides/writing-a-recipe/" icon={<Icon name="Puzzle" />}>The step-by-step guide.</Cards.Card>
+</Cards>
+
+Sources: [docs/TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md), [ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/ARCHITECTURE.md).
 
 <AlphaFooter repo="saas_core" />

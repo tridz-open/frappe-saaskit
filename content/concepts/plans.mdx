@@ -1,12 +1,34 @@
 ---
 title: Plans and prices
-description: "How Frappe SaaS plans and plan prices work: fields, integer minor units, listing plans and syncing them to a gateway."
+description: "How Frappe SaaS plans and plan prices work: fields, integer minor units, listing plans and syncing them to a payment gateway."
 ---
 
 # Plans and prices
 
 <p className="lede">A plan is what a customer buys: a price per interval and currency, and the template their site is built from.</p>
 
-<Badge status="stub" /> This page is being written.
+## Plan fields
+
+`code` (the name), `title`, `is_public`, `available`, `trial_days`, `fc_server_plan`, `limits` (JSON), `template` (link), `features` (JSON list), `prices` (child table) and `sort_order`.
+
+## Prices
+
+Each Plan Price row is `{interval, currency, amount, gateway, gateway_price_id}`.
+
+- Amounts are integers in minor units (paise, cents). Never floats.
+- The charge currency is the currency of the chosen row. It is never defaulted, and saas_core never falls back to another currency's price.
+- Amounts always come from these server-side rows, never from the browser.
+
+## Listing plans
+
+```bash
+curl "$API.plans.list?currency=INR&interval=month"
+```
+
+## Syncing to the gateway
+
+After the gateway is bootstrapped, run the admin op `sync_plans` (see [Deploying](/guides/deploy/), step 8).
+
+Sources: [saas_core ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/ARCHITECTURE.md), [gateway CONTRACT.md](https://github.com/tridz-open/saas_core/blob/main/docs/gateways/CONTRACT.md), [README](https://github.com/tridz-open/saas_core#readme).
 
 <AlphaFooter repo="saas_core" />

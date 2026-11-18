@@ -223,3 +223,4 @@ html.dark .logos ul a { background: #fff; }
 
 article :where(p, li, td, dd) > a, .alpha-footer a, .logos-title a, .hero-eyebrow a, .diagram-desc a { text-decoration: underline; text-underline-offset: 3px; }
 .diagram-canvas:focus-visible, .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diagram-canvas svg { min-width: 640px; }

@@ -1,26 +1,90 @@
 ---
-description: "How Frappe SaaS fits together to run your Frappe app as SaaS on Frappe Cloud: browser, starter and SDK, saas_core control plane, fcctl and Frappe Cloud."
+title: Architecture
+description: "How Frappe SaaS fits together: starter and SDK, the saas_core control plane, fcctl and Frappe Cloud v2, with who owns what and a request end to end."
 ---
 
 # Architecture
 
-```text
-browser -> starter + SDK -> saas_core (HTTP API, webhooks) -> fcctl -> Frappe Cloud
-                                  ^
-                          payment gateway callbacks
+<p className="lede">One picture of the system, and who owns what.</p>
+
+## The big picture
+
+<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway, and the gateway sends webhooks back to saas_core. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
+
+```mermaid
+flowchart LR
+  B([Browser]) --> S["Starter<br/>React + SDK"]
+  S -- "HTTPS JSON<br/>API 2.0.0-alpha.1" --> C["saas_core<br/>control-plane site"]
+  G[["Payment gateway<br/>Razorpay · Stripe · yours"]] -- "webhooks" --> C
+  C -- "checkout session" --> G
+  C -- "fcctl port" --> F["fcctl<br/>CLI + library"]
+  subgraph FC["Frappe Cloud v2"]
+    direction TB
+    CEN["Central<br/>team · servers · buckets"]
+    PIL["Pilot<br/>sites · apps · backups"]
+  end
+  F --> CEN
+  F --> PIL
+  PIL --> T1[(Tenant site A)]
+  PIL --> T2[(Tenant site B)]
 ```
 
-- **Frontends talk only to the `saas_core` HTTP API** (versioned OpenAPI contract, API `2.0.0-alpha.1`). The starter and the TypeScript SDK (`@frappe-saaskit/client`, `react`, `mock`) are one such frontend.
-- **`saas_core`** runs on one "control plane" Frappe site. It owns plans, templates, tenants, subscriptions, billing and provisioning jobs.
-- **Pay then provision:** checkout creates a pending Tenant; the gateway callback or webhook is stored once as a Payment Event; the processor activates the Subscription; the first success enqueues a `provision` job that drives `fcctl` and emails the owner a one-time setup link. Jobs are auditable and resume-safe.
-- **`fcctl`** is the only thing that talks to Frappe Cloud. It restores a golden backup into a new site, runs hooks and health checks.
-- **Tenant sites** are separate Frappe sites, one per customer, created on Frappe Cloud.
-- **Recipes** are how your own app plugs in. See [Writing a recipe](/guides/writing-a-recipe/).
+</Diagram>
 
-## What the customer sees
+Authoritative SVGs of the same system live upstream: [system context](https://github.com/tridz-open/saas_core/blob/main/docs/assets/system-context.svg) in saas_core and the [request path](https://github.com/tridz-open/fcctl/blob/main/docs/assets/request-path.svg) in fcctl.
 
-<Shot name="provisioning-in-progress" alt="Provisioning progress screen showing per-step status while the tenant site is created" caption="Provisioning progress, driven by saas_core jobs." />
-<Shot name="console-instances" alt="Customer console instances list with status and site URL" caption="The customer console lists each tenant site." />
+## Who owns what
+
+| Layer | Repo | Language | Owns | Talks to |
+|---|---|---|---|---|
+| Starter | `frappe-saaskit-starter` | TypeScript, React 19, Vite 8 | Landing, pricing, signup, checkout, provisioning progress and the customer console | The saas_core HTTP API, through the SDK |
+| SDK | `saas_core/sdk` | TypeScript, ESM | `@frappe-saaskit/client`, `react`, `mock` (plus experimental `vue`, `node`); types generated from `openapi/v1.yaml` | saas_core |
+| Control plane | `saas_core` | Python, a Frappe v16 app | Plans, templates, tenants, subscriptions, billing, provisioning jobs and the HTTP API `2.0.0-alpha.1` | Payment gateways, fcctl |
+| Driver | `fcctl` | Python 3.11+, CLI and library | The only thing that talks to Frappe Cloud: sites, apps, backups, tasks, plus a safety layer | Frappe Cloud v2 |
+| Platform | Frappe Cloud v2 | n/a | **Central** (dashboard.frappe.io: team, billing, servers, snapshots, buckets) and **Pilot** (the per-server gateway: sites, apps, backups, tasks, logs) | n/a |
+
+## Three rules
+
+<FeatureGrid cols={3}>
+  <Feature icon="LayoutDashboard" title="Frontends only call the saas_core API">The starter and the SDK are one such frontend. The contract is a versioned OpenAPI file.</Feature>
+  <Feature icon="Plug" title="Gateways call back into webhooks">Payment providers confirm payments by signed webhooks. Each one is stored once as a Payment Event.</Feature>
+  <Feature icon="Server" title="Only the server reaches Frappe Cloud">Only through the fcctl port. The browser never holds a Frappe Cloud credential.</Feature>
+</FeatureGrid>
+
+## A request, end to end
+
+<Diagram title="Checkout request flow" caption="The browser proof and the gateway webhook race; the first one to record the Payment Event wins." description="The browser asks the starter to choose a plan and sign up. The starter calls signup, then checkout.create_session with an Idempotency-Key. saas_core creates a pending Tenant and asks the gateway for a checkout session. The customer pays on the hosted checkout. Two proofs follow in parallel: the browser calls checkout.verify_payment and the gateway sends a signed webhook. saas_core records one Payment Event named gateway:event_id, first one wins, and the starter follows job updates by polling or server-sent events.">
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as Browser
+  participant S as Starter (SDK)
+  participant C as saas_core
+  participant G as Gateway
+  U->>S: Choose plan, sign up
+  S->>C: signup, me (CSRF)
+  S->>C: checkout.create_session (Idempotency-Key)
+  C->>C: Tenant = pending
+  C->>G: create_checkout_session
+  G-->>U: Hosted checkout / Checkout.js
+  U->>G: Pay
+  par Browser proof
+    U->>C: checkout.verify_payment
+  and Server proof
+    G->>C: webhook (signed)
+  end
+  C->>C: Payment Event gateway:event_id (first wins)
+  C-->>S: job updates (poll or SSE)
+```
+
+</Diagram>
+
+<Screenshot name="provisioning-in-progress" alt="Provisioning progress screen showing per-step status while the tenant site is created" caption="What the customer sees next: provisioning progress, driven by saas_core jobs." frame="browser" />
+
+## Control plane and tenants
+
+One site runs saas_core: the **control plane**. Every customer gets a separate **tenant** site on Frappe Cloud. Tenant servers are shared by default, so many customer sites live on the same bench. Set `saas_core_fc_dedicated_bench=1` to turn on the empty-bench guard, which requires the bench to be empty.
 
 ## Mock modes
 
@@ -30,8 +94,16 @@ browser -> starter + SDK -> saas_core (HTTP API, webhooks) -> fcctl -> Frappe Cl
 | `@frappe-saaskit/mock` | SDK | Mock client for tests and UI work |
 | `saas_core_fake_fcctl=1` | saas_core site_config | In-memory fake instead of Frappe Cloud |
 | `fcctl.testing.FakeFrappeCloud` | fcctl | Fake Frappe Cloud for tests |
-| `saas_core_local_bench` | saas_core | Experimental: real sites on the same bench |
+| `saas_core_local_bench` | saas_core | <Badge status="experimental" /> Real sites on the same bench, development only |
 
-Authoritative diagrams and contracts: [saas_core docs/ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md).
+## Deeper
+
+<Cards num={3}>
+  <Cards.Card title="saas_core architecture" href="https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md" icon={<Icon name="Server" />}>Runtime behaviour, state machines and the system context SVG.</Cards.Card>
+  <Cards.Card title="fcctl architecture" href="https://github.com/tridz-open/fcctl/blob/main/docs/ARCHITECTURE.md" icon={<Icon name="Terminal" />}>Request path, safety layer, auth flow, provisioning states.</Cards.Card>
+  <Cards.Card title="SDK architecture" href="https://github.com/tridz-open/saas_core/blob/main/sdk/docs/ARCHITECTURE.md" icon={<Icon name="Puzzle" />}>How the typed client is built from the OpenAPI contract.</Cards.Card>
+</Cards>
+
+Sources: [saas_core README](https://github.com/tridz-open/saas_core#readme), [docs/ARCHITECTURE.md](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md), [docs/TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md), [fcctl README](https://github.com/tridz-open/fcctl#readme), [SDK README](https://github.com/tridz-open/saas_core/blob/main/sdk/README.md).
 
 <AlphaFooter repo="saas_core" />

@@ -1,12 +1,88 @@
 ---
 title: Provisioning
-description: "How Frappe SaaS provisions a tenant site: pay then provision, the Provision Job, ten fcctl steps, health checks and onboarding email."
+description: "How Frappe SaaS provisions a tenant site: pay then provision, the Provision Job, ten fcctl steps, health checks and two-step onboarding email."
 ---
 
 # Provisioning
 
 <p className="lede">Provisioning turns a paid tenant into a running Frappe site, through an auditable, resume-safe job.</p>
 
-<Badge status="stub" /> This page is being written.
+## Pay, then provision
+
+<Diagram title="Provisioning sequence" caption="From a paid event to a welcome email." description="The billing processor enqueues a provision job, de-duplicated. The job calls the fcctl workflow, which runs preflight, server, bench apps and create site on Frappe Cloud, then isolates the site, restores the golden backup and re-isolates. It runs the hooks, config and health checks (12 attempts, 10 seconds apart). On success the job emails the owner a one-time setup link. After the owner finishes setup, the site reports setup_complete and the job sends the welcome email.">
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant P as Billing processor
+  participant J as Provision Job
+  participant F as fcctl workflow
+  participant FC as Frappe Cloud (Pilot)
+  participant O as Owner
+  P->>J: enqueue provision (dedupe)
+  J->>F: provision_site(spec, workflow_id)
+  F->>FC: preflight, server, bench_apps, create_site
+  F->>FC: isolate, restore golden backup, reisolate
+  F->>FC: hooks (recipe, then core.scheduler_resume, core.maintenance_off)
+  F->>FC: config, health checks (12 x 10 s)
+  F-->>J: succeeded
+  J->>O: setup email (one-time link, 24 h)
+  O->>FC: set password, finish setup
+  FC-->>J: setup_complete
+  J->>O: welcome email
+```
+
+</Diagram>
+
+## Provision Job
+
+Kinds: `provision`, `suspend`, `resume`, `change_plan`, `terminate`, `backup`, `restore`. States: `pending`, `dispatching`, `submitted`, `running`, `succeeded`, `failed`, `stuck`, `outcome_unknown`, `needs_attention`. Runner failures normally land in `needs_attention`, with the Tenant set to `failed`.
+
+### Resume safety
+
+Before dispatching, the runner asks the port `find_workflow(workflow_id)`. A finished workflow is adopted, a failed one fails the job, a running one is resumed by id.
+
+### Reconcile
+
+`reconcile.run` runs every 15 minutes. `terminate`, `backup` and `restore` jobs with an unknown outcome go to `needs_attention` and are never auto-retried.
+
+## The ten fcctl steps
+
+<Steps>
+
+### preflight
+
+### server
+
+### bench_apps
+
+### create_site
+
+### isolate
+
+### restore
+
+### reisolate
+
+### hooks
+
+### config
+
+### health
+
+</Steps>
+
+> [!NOTE]
+> A failure in steps 1 to 4 leaves the workflow running; re-run with `--workflow-id` and finished steps are skipped. A failure in steps 5 to 10 sets `needs_attention`. See the [upstream diagram](https://github.com/tridz-open/fcctl/blob/main/docs/assets/provision-site-steps.svg).
+
+## Health checks
+
+Pilot's own site health runs first. Then each `{name, path, expect}` is requested over HTTPS, 12 attempts 10 seconds apart by default (`saas_core_fc_health_attempts`, `saas_core_fc_health_delay`).
+
+## Two-step onboarding email
+
+The first mail carries a one-time set-password link (default expiry 24 hours, `saas_core_setup_link_expiry_hours`). The welcome mail is sent only after the tenant site reports setup complete. The admin password is never mailed and the setup URL is never stored or logged.
+
+Sources: [docs/ARCHITECTURE.md §4, §6](https://github.com/tridz-open/saas_core/blob/main/docs/ARCHITECTURE.md), [docs/TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md), [fcctl steps diagram](https://github.com/tridz-open/fcctl/blob/main/docs/assets/provision-site-steps.svg).
 
 <AlphaFooter repo="saas_core" />
