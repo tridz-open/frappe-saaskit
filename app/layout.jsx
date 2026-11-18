@@ -5,6 +5,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
+import './components.css'
 
 export const metadata = {
   title: { default: 'Frappe SaaS', template: '%s | Frappe SaaS' },
@@ -21,8 +22,7 @@ const navbar = (
 const footer = (
   <Footer>
     <span>
-      Tridz Technologies, MIT. Not affiliated with or endorsed by Frappe Technologies. &quot;Frappe&quot; and
-      &quot;Frappe Cloud&quot; are their trademarks.
+      Tridz Technologies, MIT license. No analytics or cookies.
     </span>
   </Footer>
 )

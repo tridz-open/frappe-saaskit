@@ -203,7 +203,8 @@ function render(n, ctx) {
     case 'Hero': {
       const p = evalAttr(n, 'primary', null)
       const s = evalAttr(n, 'secondary', null)
-      const eyebrow = str(n, 'eyebrow')
+      const el = evalAttr(n, 'eyebrowLink', null)
+      const eyebrow = [str(n, 'eyebrow'), el && `[${el.label}](${el.href})`].filter(Boolean).join(' · ')
       const links = [p && `[${p.label}](${p.href})`, s && `[${s.label}](${s.href})`].filter(Boolean).join(' · ')
       return `\n\n# ${str(n, 'title')}\n\n${eyebrow ? `${eyebrow}\n\n` : ''}${str(n, 'sub')}\n\n${links}\n\n${str(n, 'note') ? `\`${str(n, 'note')}\`\n\n` : ''}${tidy(kids())}\n\n`
     }
