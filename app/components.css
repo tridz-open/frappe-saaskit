@@ -152,10 +152,10 @@ article table th { text-align: start; background: var(--surface-subtle); }
 .logos-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 1rem !important; }
 .logos ul { list-style: none !important; margin: 0 !important; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center; }
 .logos li { margin: 0 !important; padding: 0 !important; }
-.logos a { display: flex; align-items: center; height: 40px; padding: 4px 8px; border-radius: 8px; }
+.logos ul a { display: flex; align-items: center; height: 40px; padding: 4px 8px; border-radius: 8px; }
 .logos img { height: 28px; width: auto; object-fit: contain; filter: grayscale(1) opacity(0.7); transition: filter 0.15s; }
 .logos img[src$='tridz.png'] { height: 24px; }
-.logos a:hover img, .logos a:focus-visible img { filter: none; }
+.logos ul a:hover img, .logos ul a:focus-visible img { filter: none; }
 html.dark .logos ul a { background: #fff; }
 
 /* ---------- Alpha footer ---------- */
@@ -223,3 +223,9 @@ html.dark .logos ul a { background: #fff; }
 article :where(p, li, td, dd) > a, .alpha-footer a, .logos-title a, .hero-eyebrow a, .diagram-desc a { text-decoration: underline; text-underline-offset: 3px; }
 .diagram-canvas:focus-visible, .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .diagram-canvas svg { min-width: 640px; }
+
+/* Full-bleed bands on the home page */
+.hero, .section { margin-inline: calc(50% - 50vw); }
+
+.split > div { min-width: 0; }
+.split pre { overflow-x: auto; }

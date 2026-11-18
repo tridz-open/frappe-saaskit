@@ -128,4 +128,16 @@ write(
   join(OUT, 'llms-full.txt'),
   order.map((r) => `<!-- ${url(r)} -->\n\n${pages.get(r).md}`).join('\n---\n\n')
 )
+// ---------- a11y patch: nextra's Copy page dropdown chevron is an icon-only button without a name ----------
+const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]))
+let patched = 0
+for (const f of walk(OUT).filter((f) => f.endsWith('.html'))) {
+  const html = readFileSync(f, 'utf8')
+  const out = html.replace(/<button (class="[^"]*") (id="headlessui-listbox-button-[^"]*") (type="button" aria-haspopup="listbox")([^>]*)><svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" width="12" class="x:rotate-90">/g, '<button $1 $2 aria-label="More copy options" $3$4><svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" width="12" class="x:rotate-90">')
+  if (out !== html) {
+    writeFileSync(f, out)
+    patched++
+  }
+}
+console.log(`postbuild: a11y-labelled the Copy page menu button in ${patched} pages`)
 console.log(`postbuild: ${pages.size} pages -> .md, llms.txt (${order.length} entries), llms-full.txt, ${Object.keys(REDIRECTS).length} redirect stubs`)

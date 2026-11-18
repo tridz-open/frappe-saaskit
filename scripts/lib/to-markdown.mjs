@@ -103,7 +103,8 @@ function parse(src) {
 const str = (n, k, d = '') => {
   const a = n.attrs?.[k]
   if (!a) return d
-  return a.raw ? String(a.value).trim().replace(/^['"`]|['"`]$/g, '') : a.value
+  const v = a.raw ? String(a.value).trim().replace(/^['"`]|['"`]$/g, '') : a.value
+  return typeof v === 'string' ? v.replace(/&quot;/g, '"') : v
 }
 // eslint-disable-next-line no-new-func
 const evalAttr = (n, k, d) => {
@@ -278,6 +279,8 @@ export function toMarkdown(src, { site = 'https://frappesaas.tridz.in' } = {}) {
   body = out
   // <p className="lede">…</p> -> plain paragraph
   body = body.replace(/<p className="lede">([\s\S]*?)<\/p>/g, (_, t) => `\n\n${t.trim()}\n\n`)
+  // layout-only HTML used on the home page: drop wrappers, turn button links into Markdown links
+  body = body.replace(/<\/?div[^>]*>/g, '').replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, '[$2]($1)')
   body = render(parse(body), { site })
   // description under the H1
   if (fm.description) {
