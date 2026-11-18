@@ -9,7 +9,7 @@ description: "How Frappe SaaS provisions a tenant site: pay then provision, the 
 
 ## Pay, then provision
 
-<Diagram title="Provisioning sequence" caption="From a paid event to a welcome email." description="The billing processor enqueues a provision job, de-duplicated. The job calls the fcctl workflow, which runs preflight, server, bench apps and create site on Frappe Cloud, then isolates the site, restores the golden backup and re-isolates. It runs the hooks, config and health checks (12 attempts, 10 seconds apart). On success the job emails the owner a one-time setup link. After the owner finishes setup, the site reports setup_complete and the job sends the welcome email.">
+<Diagram height={560} title="Provisioning sequence" caption="From a paid event to a welcome email." description="The billing processor enqueues a provision job, de-duplicated. The job calls the fcctl workflow, which runs preflight, server, bench apps and create site on Frappe Cloud, then isolates the site, restores the golden backup and re-isolates. It runs the hooks, config and health checks (12 attempts, 10 seconds apart). On success the job emails the owner a one-time setup link. After the owner finishes setup, the site reports setup_complete and the job sends the welcome email.">
 
 ```mermaid
 sequenceDiagram

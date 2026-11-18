@@ -22,7 +22,7 @@ description: "What a Frappe SaaS tenant is: the Tenant record, its states, site 
 
 ## States
 
-<Diagram title="Tenant states" caption="Statuses of a Tenant. There is no terminated status." description="A tenant starts pending, from checkout or an admin. A provision job moves it to provisioning, then active once health checks pass and the setup mail is sent. A workflow or template failure makes it failed, and an operator retry returns it to provisioning. Capacity exhaustion returns it to pending. An active tenant becomes suspended on dunning stage 3 or cancellation and returns to active on a successful payment. Active or suspended tenants become terminating when deletion is approved, and the tenant ends when the site is removed and fc_site is cleared.">
+<Diagram height={720} title="Tenant states" caption="Statuses of a Tenant. There is no terminated status." description="A tenant starts pending, from checkout or an admin. A provision job moves it to provisioning, then active once health checks pass and the setup mail is sent. A workflow or template failure makes it failed, and an operator retry returns it to provisioning. Capacity exhaustion returns it to pending. An active tenant becomes suspended on dunning stage 3 or cancellation and returns to active on a successful payment. Active or suspended tenants become terminating when deletion is approved, and the tenant ends when the site is removed and fc_site is cleared.">
 
 ```mermaid
 stateDiagram-v2

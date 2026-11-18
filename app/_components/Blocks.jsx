@@ -132,10 +132,10 @@ export function Repos() {
   )
 }
 
-export function Diagram({ title, caption, description, children }) {
+export function Diagram({ title, caption, description, height = 300, children }) {
   return (
     <figure className="diagram" role="group" aria-label={title}>
-      <div className="diagram-canvas" role="region" aria-label={`${title} (scrollable)`} tabIndex={0}>
+      <div className="diagram-canvas" role="region" aria-label={`${title} (scrollable)`} tabIndex={0} style={{ minHeight: height }}>
         {children}
       </div>
       {caption ? <figcaption>{caption}</figcaption> : null}

@@ -9,7 +9,7 @@ description: "How Frappe SaaS fits together: starter and SDK, the saas_core cont
 
 ## The big picture
 
-<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway, and the gateway sends webhooks back to saas_core. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
+<Diagram height={260} title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway, and the gateway sends webhooks back to saas_core. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
 
 ```mermaid
 flowchart LR
@@ -53,7 +53,7 @@ Authoritative SVGs of the same system live upstream: [system context](https://gi
 
 ## A request, end to end
 
-<Diagram title="Checkout request flow" caption="The browser proof and the gateway webhook race; the first one to record the Payment Event wins." description="The browser asks the starter to choose a plan and sign up. The starter calls signup, then checkout.create_session with an Idempotency-Key. saas_core creates a pending Tenant and asks the gateway for a checkout session. The customer pays on the hosted checkout. Two proofs follow in parallel: the browser calls checkout.verify_payment and the gateway sends a signed webhook. saas_core records one Payment Event named gateway:event_id, first one wins, and the starter follows job updates by polling or server-sent events.">
+<Diagram height={560} title="Checkout request flow" caption="The browser proof and the gateway webhook race; the first one to record the Payment Event wins." description="The browser asks the starter to choose a plan and sign up. The starter calls signup, then checkout.create_session with an Idempotency-Key. saas_core creates a pending Tenant and asks the gateway for a checkout session. The customer pays on the hosted checkout. Two proofs follow in parallel: the browser calls checkout.verify_payment and the gateway sends a signed webhook. saas_core records one Payment Event named gateway:event_id, first one wins, and the starter follows job updates by polling or server-sent events.">
 
 ```mermaid
 sequenceDiagram

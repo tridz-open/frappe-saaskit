@@ -16,7 +16,7 @@ description: "How approvals work in Frappe SaaS: the saas_core two-person gate a
 
 ## The flow
 
-<Diagram title="Approval gate flow" caption="The fcctl guard. saas_core adds its own two-person gate before it re-runs the operation." description="A destructive operation such as drop, restore or terminate is checked against the policy. read_only and protected deny it with exit 4; full executes it. Under guarded, an operation on a site created by the same workflow, proven by the journal, executes. Anything else files an approval request, exit 7, expiring in 30 minutes. A second person different from the requester approves it, otherwise it expires or is denied. Execution is journalled with fsync first, then calls Frappe Cloud and writes a hash-chained audit entry.">
+<Diagram height={760} title="Approval gate flow" caption="The fcctl guard. saas_core adds its own two-person gate before it re-runs the operation." description="A destructive operation such as drop, restore or terminate is checked against the policy. read_only and protected deny it with exit 4; full executes it. Under guarded, an operation on a site created by the same workflow, proven by the journal, executes. Anything else files an approval request, exit 7, expiring in 30 minutes. A second person different from the requester approves it, otherwise it expires or is denied. Execution is journalled with fsync first, then calls Frappe Cloud and writes a hash-chained audit entry.">
 
 ```mermaid
 flowchart TD
