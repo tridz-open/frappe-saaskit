@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dg" viewBox="0 0 800 615" width="800" role="img" aria-label="Checkout request flow">
+<title>Checkout request flow</title>
+<style>.dg{--k-ink:#18181b;--k-mut:#5b5b63;--k-line:#71717a;--k-bg:#ffffff;--k-box:#ffffff;--k-bs:#b9b9b3;--k-grp:#f4f4f2;--k-gs:#c4c4be;--k-acc:#eef2ff;--k-as:#4f46e5;--k-ok:#dcfce7;--k-os:#16a34a;--k-warn:#fef3c7;--k-ws:#d97706;--k-bad:#fef2f2;--k-bds:#dc2626}
+@media (prefers-color-scheme:dark){.dg{--k-ink:#ededef;--k-mut:#a1a1aa;--k-line:#8b8b96;--k-bg:#18181b;--k-box:#202024;--k-bs:#52525b;--k-grp:#141417;--k-gs:#3f3f46;--k-acc:rgba(129,140,248,.14);--k-as:#818cf8;--k-ok:rgba(34,197,94,.14);--k-os:#4ade80;--k-warn:rgba(245,158,11,.14);--k-ws:#fbbf24;--k-bad:rgba(239,68,68,.14);--k-bds:#f87171}}
+.dg text{font-family:var(--font-geist-sans),Geist,system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--k-ink);font-size:12.5px}
+.dg .dg-p{font-weight:560}
+.dg .dg-s{fill:var(--k-mut);font-size:11px}
+.dg .dg-l{fill:var(--k-mut);font-size:11.5px}
+.dg .dg-h{paint-order:stroke;stroke:var(--k-bg);stroke-width:5px;stroke-linejoin:round}
+.dg .dg-n{fill:var(--k-as);font-weight:650}
+.dg .dg-gt{fill:var(--k-mut);font-size:11px;font-weight:560;letter-spacing:.02em}
+.dg .dg-box{fill:var(--k-box);stroke:var(--k-bs);stroke-width:1.2}
+.dg .dg-acc{fill:var(--k-acc);stroke:var(--k-as)}
+.dg .dg-ok{fill:var(--k-ok);stroke:var(--k-os)}
+.dg .dg-warn{fill:var(--k-warn);stroke:var(--k-ws)}
+.dg .dg-bad{fill:var(--k-bad);stroke:var(--k-bds)}
+.dg .dg-grp{fill:var(--k-grp);stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:6 4}
+.dg .dg-ln{fill:none;stroke:var(--k-line);stroke-width:1.3}
+.dg .dg-dash{stroke-dasharray:6 4}
+.dg .dg-life{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}
+.dg .dg-mk{fill:var(--k-line)}
+.dg .dg-dot{fill:var(--k-line)}
+.dg .dg-bar{stroke-width:1.2}
+.dg .dg-tick{stroke:var(--k-line);stroke-width:1.2}
+.dg .dg-guide{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}</style>
+<defs><marker id="ar-req" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path class="dg-mk" d="M0,0 L8,4 L0,8 L2,4 z"/></marker></defs>
+<line class="dg-life" x1="85" y1="56" x2="85" y2="595"/>
+<line class="dg-life" x1="285" y1="56" x2="285" y2="595"/>
+<line class="dg-life" x1="515" y1="56" x2="515" y2="595"/>
+<line class="dg-life" x1="715" y1="56" x2="715" y2="595"/>
+<rect class="dg-grp" x="20" y="358" width="760" height="120" rx="8"/>
+<text class="dg-gt" x="32" y="373">par  <tspan style="font-weight:400">Browser proof</tspan></text>
+<line class="dg-guide" x1="20" y1="425" x2="780" y2="425"/>
+<text class="dg-gt" x="32" y="439">and  <tspan style="font-weight:400">Server proof</tspan></text>
+<path class="dg-ln" d="M90,89 L274,89" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M290,128 L504,128" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M290,180 L504,180" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M520,268 L704,268" marker-end="url(#ar-req)"/>
+<path class="dg-ln dg-dash" d="M710,307 L96,307" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M90,346 L704,346" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M90,399 L504,399" marker-end="url(#ar-req)"/>
+<path class="dg-ln" d="M710,458 L526,458" marker-end="url(#ar-req)"/>
+<path class="dg-ln dg-dash" d="M510,575 L296,575" marker-end="url(#ar-req)"/>
+<text class="dg-l" x="185" y="83" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">1</tspan>  Choose plan, sign up</text>
+<text class="dg-l" x="400" y="122" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">2</tspan>  signup, me (CSRF)</text>
+<text class="dg-l" x="400" y="161" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">3</tspan>  checkout.create_session</text>
+<text class="dg-l" x="400" y="174" text-anchor="middle" style="fill:var(--k-ink)">(Idempotency-Key)</text>
+<rect class="dg-warn" x="440" y="204" width="150" height="29" rx="6"/>
+<text class="dg-s" style="fill:var(--k-ink)" x="515" y="223" text-anchor="middle">Tenant = pending</text>
+<text class="dg-l" x="615" y="262" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">4</tspan>  create_checkout_session</text>
+<text class="dg-l" x="615" y="301" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">5</tspan>  Hosted checkout / Checkout.js</text>
+<text class="dg-l" x="615" y="340" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">6</tspan>  Pay</text>
+<text class="dg-l" x="400" y="393" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">7</tspan>  checkout.verify_payment</text>
+<text class="dg-l" x="615" y="452" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">8</tspan>  webhook (signed)</text>
+<rect class="dg-warn" x="390" y="496" width="250" height="44" rx="6"/>
+<text class="dg-s" style="fill:var(--k-ink)" x="515" y="515" text-anchor="middle">Payment Event gateway:event_id</text>
+<text class="dg-s" style="fill:var(--k-ink)" x="515" y="530" text-anchor="middle">first one wins</text>
+<text class="dg-l" x="400" y="569" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">9</tspan>  job updates (poll or SSE)</text>
+<!-- Browser: x=20 y=20 right=150 bottom=56 -->
+<rect class="dg-box" x="20" y="20" width="130" height="36" rx="7"/>
+<text class="dg-p" x="85" y="42" text-anchor="middle">Browser</text>
+<!-- Starter (SDK): x=220 y=20 right=350 bottom=56 -->
+<rect class="dg-box" x="220" y="20" width="130" height="36" rx="7"/>
+<text class="dg-p" x="285" y="42" text-anchor="middle">Starter (SDK)</text>
+<!-- saas_core: x=450 y=20 right=580 bottom=56 -->
+<rect class="dg-acc" x="450" y="20" width="130" height="36" rx="7"/>
+<text class="dg-p" x="515" y="42" text-anchor="middle">saas_core</text>
+<!-- Gateway: x=650 y=20 right=780 bottom=56 -->
+<rect class="dg-warn" x="650" y="20" width="130" height="36" rx="7"/>
+<text class="dg-p" x="715" y="42" text-anchor="middle">Gateway</text>
+</svg>

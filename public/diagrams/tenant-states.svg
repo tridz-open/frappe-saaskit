@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dg" viewBox="0 0 870 312" width="870" role="img" aria-label="Tenant states">
+<title>Tenant states</title>
+<style>.dg{--k-ink:#18181b;--k-mut:#5b5b63;--k-line:#71717a;--k-bg:#ffffff;--k-box:#ffffff;--k-bs:#b9b9b3;--k-grp:#f4f4f2;--k-gs:#c4c4be;--k-acc:#eef2ff;--k-as:#4f46e5;--k-ok:#dcfce7;--k-os:#16a34a;--k-warn:#fef3c7;--k-ws:#d97706;--k-bad:#fef2f2;--k-bds:#dc2626}
+@media (prefers-color-scheme:dark){.dg{--k-ink:#ededef;--k-mut:#a1a1aa;--k-line:#8b8b96;--k-bg:#18181b;--k-box:#202024;--k-bs:#52525b;--k-grp:#141417;--k-gs:#3f3f46;--k-acc:rgba(129,140,248,.14);--k-as:#818cf8;--k-ok:rgba(34,197,94,.14);--k-os:#4ade80;--k-warn:rgba(245,158,11,.14);--k-ws:#fbbf24;--k-bad:rgba(239,68,68,.14);--k-bds:#f87171}}
+.dg text{font-family:var(--font-geist-sans),Geist,system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--k-ink);font-size:12.5px}
+.dg .dg-p{font-weight:560}
+.dg .dg-s{fill:var(--k-mut);font-size:11px}
+.dg .dg-l{fill:var(--k-mut);font-size:11.5px}
+.dg .dg-h{paint-order:stroke;stroke:var(--k-bg);stroke-width:5px;stroke-linejoin:round}
+.dg .dg-n{fill:var(--k-as);font-weight:650}
+.dg .dg-gt{fill:var(--k-mut);font-size:11px;font-weight:560;letter-spacing:.02em}
+.dg .dg-box{fill:var(--k-box);stroke:var(--k-bs);stroke-width:1.2}
+.dg .dg-acc{fill:var(--k-acc);stroke:var(--k-as)}
+.dg .dg-ok{fill:var(--k-ok);stroke:var(--k-os)}
+.dg .dg-warn{fill:var(--k-warn);stroke:var(--k-ws)}
+.dg .dg-bad{fill:var(--k-bad);stroke:var(--k-bds)}
+.dg .dg-grp{fill:var(--k-grp);stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:6 4}
+.dg .dg-ln{fill:none;stroke:var(--k-line);stroke-width:1.3}
+.dg .dg-dash{stroke-dasharray:6 4}
+.dg .dg-life{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}
+.dg .dg-mk{fill:var(--k-line)}
+.dg .dg-dot{fill:var(--k-line)}
+.dg .dg-bar{stroke-width:1.2}
+.dg .dg-tick{stroke:var(--k-line);stroke-width:1.2}
+.dg .dg-guide{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}</style>
+<defs><marker id="ar-state" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path class="dg-mk" d="M0,0 L8,4 L0,8 L2,4 z"/></marker></defs>
+<path class="dg-ln" d="M116,31 L116,53" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M173,78 L287,78" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M293,98 L179,98" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M407,88 L521,88" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M336,117 L336,181" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M364,187 L364,123" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M570,117 L570,181" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M598,187 L598,123" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M641,216 L735,216" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M641,88 C 720,88 798,134 798,181" marker-end="url(#ar-state)"/>
+<path class="dg-ln" d="M798,245 L798,265" marker-end="url(#ar-state)"/>
+<circle class="dg-dot" cx="116" cy="20" r="6"/>
+<text class="dg-l" x="130" y="24" text-anchor="start">checkout or admin</text>
+<!-- pending: x=64 y=64 right=168 bottom=112 -->
+<rect class="dg-box" x="64" y="64" width="104" height="48" rx="24"/>
+<text class="dg-p" x="116" y="92" text-anchor="middle">pending</text>
+<!-- provisioning: x=298 y=64 right=402 bottom=112 -->
+<rect class="dg-acc" x="298" y="64" width="104" height="48" rx="24"/>
+<text class="dg-p" x="350" y="92" text-anchor="middle">provisioning</text>
+<!-- active: x=532 y=64 right=636 bottom=112 -->
+<rect class="dg-ok" x="532" y="64" width="104" height="48" rx="24"/>
+<text class="dg-p" x="584" y="92" text-anchor="middle">active</text>
+<!-- failed: x=298 y=192 right=402 bottom=240 -->
+<rect class="dg-bad" x="298" y="192" width="104" height="48" rx="24"/>
+<text class="dg-p" x="350" y="220" text-anchor="middle">failed</text>
+<!-- suspended: x=532 y=192 right=636 bottom=240 -->
+<rect class="dg-warn" x="532" y="192" width="104" height="48" rx="24"/>
+<text class="dg-p" x="584" y="220" text-anchor="middle">suspended</text>
+<!-- terminating: x=746 y=192 right=850 bottom=240 -->
+<rect class="dg-warn" x="746" y="192" width="104" height="48" rx="24"/>
+<text class="dg-p" x="798" y="220" text-anchor="middle">terminating</text>
+<text class="dg-l" x="233" y="53" text-anchor="middle">provision job</text>
+<text class="dg-l" x="233" y="66" text-anchor="middle">starts</text>
+<text class="dg-l" x="233" y="117" text-anchor="middle">capacity</text>
+<text class="dg-l" x="233" y="130" text-anchor="middle">exhausted</text>
+<text class="dg-l" x="467" y="61" text-anchor="middle">health ok,</text>
+<text class="dg-l" x="467" y="74" text-anchor="middle">setup mail</text>
+<text class="dg-l" x="326" y="145" text-anchor="end">workflow or</text>
+<text class="dg-l" x="326" y="158" text-anchor="end">template failed</text>
+<text class="dg-l" x="374" y="145" text-anchor="start">operator</text>
+<text class="dg-l" x="374" y="158" text-anchor="start">retries</text>
+<text class="dg-l" x="560" y="145" text-anchor="end">dunning stage 3</text>
+<text class="dg-l" x="560" y="158" text-anchor="end">/ canceled</text>
+<text class="dg-l" x="608" y="145" text-anchor="start">payment</text>
+<text class="dg-l" x="608" y="158" text-anchor="start">succeeded</text>
+<text class="dg-l" x="691" y="191" text-anchor="middle">delete</text>
+<text class="dg-l" x="691" y="204" text-anchor="middle">approved</text>
+<text class="dg-l" x="742" y="78" text-anchor="middle">delete approved</text>
+<text class="dg-l" x="788" y="253" text-anchor="end">site removed,</text>
+<text class="dg-l" x="788" y="266" text-anchor="end">fc_site cleared</text>
+<circle cx="798" cy="284" r="8" fill="none" stroke="var(--k-line)" stroke-width="1.3"/><circle class="dg-dot" cx="798" cy="284" r="4.5"/>
+</svg>

@@ -34,27 +34,7 @@ description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, g
 
 <Section title="How the pieces fit" sub="Frontends only talk to saas_core. Only the server talks to Frappe Cloud, only through fcctl.">
 
-<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway and receives its webhooks. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
-
-```mermaid
-flowchart LR
-  B([Browser]) --> S["Starter<br/>React + SDK"]
-  S -- "HTTPS JSON<br/>API 2.0.0-alpha.1" --> C["saas_core<br/>control-plane site"]
-  G[["Payment gateway<br/>Razorpay · Stripe · yours"]] -- "webhooks" --> C
-  C -- "checkout session" --> G
-  C -- "fcctl port" --> F["fcctl<br/>CLI + library"]
-  subgraph FC["Frappe Cloud v2"]
-    direction TB
-    CEN["Central<br/>team · servers · buckets"]
-    PIL["Pilot<br/>sites · apps · backups"]
-  end
-  F --> CEN
-  F --> PIL
-  PIL --> T1[(Tenant site A)]
-  PIL --> T2[(Tenant site B)]
-```
-
-</Diagram>
+<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway and receives its webhooks. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites." src="architecture" />
 
 [Read the architecture →](/architecture/)
 

@@ -9,30 +9,7 @@ description: "How Frappe SaaS provisions a tenant site: pay then provision, the 
 
 ## Pay, then provision
 
-<Diagram height={560} title="Provisioning sequence" caption="From a paid event to a welcome email." description="The billing processor enqueues a provision job, de-duplicated. The job calls the fcctl workflow, which runs preflight, server, bench apps and create site on Frappe Cloud, then isolates the site, restores the golden backup and re-isolates. It runs the hooks, config and health checks (12 attempts, 10 seconds apart). On success the job emails the owner a one-time setup link. After the owner finishes setup, the site reports setup_complete and the job sends the welcome email.">
-
-```mermaid
-sequenceDiagram
-  autonumber
-  participant P as Billing processor
-  participant J as Provision Job
-  participant F as fcctl workflow
-  participant FC as Frappe Cloud (Pilot)
-  participant O as Owner
-  P->>J: enqueue provision (dedupe)
-  J->>F: provision_site(spec, workflow_id)
-  F->>FC: preflight, server, bench_apps, create_site
-  F->>FC: isolate, restore golden backup, reisolate
-  F->>FC: hooks (recipe, then core.scheduler_resume, core.maintenance_off)
-  F->>FC: config, health checks (12 x 10 s)
-  F-->>J: succeeded
-  J->>O: setup email (one-time link, 24 h)
-  O->>FC: set password, finish setup
-  FC-->>J: setup_complete
-  J->>O: welcome email
-```
-
-</Diagram>
+<Diagram title="Provisioning sequence" caption="From a paid event to a welcome email." description="The billing processor enqueues a provision job, de-duplicated. The job calls the fcctl workflow, which runs preflight, server, bench apps and create site on Frappe Cloud, then isolates the site, restores the golden backup and re-isolates. It runs the hooks, config and health checks (12 attempts, 10 seconds apart). On success the job emails the owner a one-time setup link. After the owner finishes setup, the site reports setup_complete and the job sends the welcome email." src="provisioning" />
 
 ## Provision Job
 

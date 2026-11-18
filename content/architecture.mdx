@@ -9,27 +9,7 @@ description: "How Frappe SaaS fits together: starter and SDK, the saas_core cont
 
 ## The big picture
 
-<Diagram height={260} title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway, and the gateway sends webhooks back to saas_core. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites.">
-
-```mermaid
-flowchart LR
-  B([Browser]) --> S["Starter<br/>React + SDK"]
-  S -- "HTTPS JSON<br/>API 2.0.0-alpha.1" --> C["saas_core<br/>control-plane site"]
-  G[["Payment gateway<br/>Razorpay · Stripe · yours"]] -- "webhooks" --> C
-  C -- "checkout session" --> G
-  C -- "fcctl port" --> F["fcctl<br/>CLI + library"]
-  subgraph FC["Frappe Cloud v2"]
-    direction TB
-    CEN["Central<br/>team · servers · buckets"]
-    PIL["Pilot<br/>sites · apps · backups"]
-  end
-  F --> CEN
-  F --> PIL
-  PIL --> T1[(Tenant site A)]
-  PIL --> T2[(Tenant site B)]
-```
-
-</Diagram>
+<Diagram title="Frappe SaaS architecture" caption="Payment gateways call back into saas_core webhooks. Frappe Cloud v2 is split into Central (team, servers) and Pilot (sites, backups)." description="A browser talks to the starter, which calls the saas_core control-plane site over HTTPS JSON. saas_core creates checkout sessions with a payment gateway, and the gateway sends webhooks back to saas_core. saas_core reaches Frappe Cloud v2 only through fcctl, which talks to Central (team, servers, buckets) and Pilot (sites, apps, backups). Pilot hosts the tenant sites." src="architecture" />
 
 Authoritative SVGs of the same system live upstream: [system context](https://github.com/tridz-open/saas_core/blob/main/docs/assets/system-context.svg) in saas_core and the [request path](https://github.com/tridz-open/fcctl/blob/main/docs/assets/request-path.svg) in fcctl.
 
@@ -53,32 +33,7 @@ Authoritative SVGs of the same system live upstream: [system context](https://gi
 
 ## A request, end to end
 
-<Diagram height={560} title="Checkout request flow" caption="The browser proof and the gateway webhook race; the first one to record the Payment Event wins." description="The browser asks the starter to choose a plan and sign up. The starter calls signup, then checkout.create_session with an Idempotency-Key. saas_core creates a pending Tenant and asks the gateway for a checkout session. The customer pays on the hosted checkout. Two proofs follow in parallel: the browser calls checkout.verify_payment and the gateway sends a signed webhook. saas_core records one Payment Event named gateway:event_id, first one wins, and the starter follows job updates by polling or server-sent events.">
-
-```mermaid
-sequenceDiagram
-  autonumber
-  participant U as Browser
-  participant S as Starter (SDK)
-  participant C as saas_core
-  participant G as Gateway
-  U->>S: Choose plan, sign up
-  S->>C: signup, me (CSRF)
-  S->>C: checkout.create_session (Idempotency-Key)
-  C->>C: Tenant = pending
-  C->>G: create_checkout_session
-  G-->>U: Hosted checkout / Checkout.js
-  U->>G: Pay
-  par Browser proof
-    U->>C: checkout.verify_payment
-  and Server proof
-    G->>C: webhook (signed)
-  end
-  C->>C: Payment Event gateway:event_id (first wins)
-  C-->>S: job updates (poll or SSE)
-```
-
-</Diagram>
+<Diagram title="Checkout request flow" caption="The browser proof and the gateway webhook race; the first one to record the Payment Event wins." description="The browser asks the starter to choose a plan and sign up. The starter calls signup, then checkout.create_session with an Idempotency-Key. saas_core creates a pending Tenant and asks the gateway for a checkout session. The customer pays on the hosted checkout. Two proofs follow in parallel: the browser calls checkout.verify_payment and the gateway sends a signed webhook. saas_core records one Payment Event named gateway:event_id, first one wins, and the starter follows job updates by polling or server-sent events." src="request-flow" />
 
 <Screenshot name="provisioning-in-progress" alt="Provisioning progress screen showing per-step status while the tenant site is created" caption="What the customer sees next: provisioning progress, driven by saas_core jobs." frame="browser" />
 

@@ -16,23 +16,7 @@ description: "How approvals work in Frappe SaaS: the saas_core two-person gate a
 
 ## The flow
 
-<Diagram height={760} title="Approval gate flow" caption="The fcctl guard. saas_core adds its own two-person gate before it re-runs the operation." description="A destructive operation such as drop, restore or terminate is checked against the policy. read_only and protected deny it with exit 4; full executes it. Under guarded, an operation on a site created by the same workflow, proven by the journal, executes. Anything else files an approval request, exit 7, expiring in 30 minutes. A second person different from the requester approves it, otherwise it expires or is denied. Execution is journalled with fsync first, then calls Frappe Cloud and writes a hash-chained audit entry.">
-
-```mermaid
-flowchart TD
-  A[Destructive op requested<br/>drop · restore · terminate] --> P{Policy}
-  P -- read_only / protected --> D[Denied, exit 4]
-  P -- full --> X[Execute]
-  P -- guarded --> O{Site created by<br/>this workflow?}
-  O -- "yes (journal proves it)" --> X
-  O -- no --> R[File approval request<br/>exit 7, expires 30 min]
-  R --> Q{Second person approves?<br/>approver ≠ requester}
-  Q -- no / expired --> E[Expired or denied]
-  Q -- yes --> X
-  X --> J[Journal: dispatching, fsync] --> API[Call Frappe Cloud] --> L[Hash-chained audit entry]
-```
-
-</Diagram>
+<Diagram title="Approval gate flow" caption="The fcctl guard. saas_core adds its own two-person gate before it re-runs the operation." description="A destructive operation such as drop, restore or terminate is checked against the policy. read_only and protected deny it with exit 4; full executes it. Under guarded, an operation on a site created by the same workflow, proven by the journal, executes. Anything else files an approval request, exit 7, expiring in 30 minutes. A second person different from the requester approves it, otherwise it expires or is denied. Execution is journalled with fsync first, then calls Frappe Cloud and writes a hash-chained audit entry." src="approval-gate" />
 
 ## Workflow ownership
 

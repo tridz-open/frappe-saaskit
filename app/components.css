@@ -97,39 +97,15 @@ article h2 .badge, article h3 .badge { margin-inline-start: 0.5rem; font-size: 0
 /* ---------- Diagrams ---------- */
 .diagram { margin: 1.5rem 0; padding: var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow-x: auto; max-width: 960px; }
 .diagram-canvas { overflow-x: auto; }
-.diagram-canvas > div { min-height: 0; }
-.diagram svg { max-width: 100%; height: auto; }
 .diagram figcaption { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
 .diagram-desc { margin-top: var(--space-3); font-size: var(--fs-small); }
 .diagram-desc summary { cursor: pointer; color: var(--accent); font-weight: 500; }
 .diagram-desc p { margin: 0.5rem 0 0 !important; color: var(--muted); }
 .formula { margin: 1rem 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--accent-soft); font-family: var(--font-mono); font-size: 0.9rem; overflow-x: auto; }
 
-/* Mermaid: recolour the rendered SVG with tokens so it follows the site theme (mermaid itself only switches default/dark). */
-.diagram svg .node rect, .diagram svg .node polygon, .diagram svg .node circle, .diagram svg .node path, .diagram svg .node ellipse,
-.diagram svg g.statediagram-state rect, .diagram svg .actor, .diagram svg rect.actor { fill: var(--accent-soft) !important; stroke: var(--accent) !important; }
-.diagram svg .cluster rect { fill: var(--surface-subtle) !important; stroke: var(--border-strong) !important; }
-.diagram svg .nodeLabel, .diagram svg .nodeLabel p, .diagram svg .label, .diagram svg .cluster-label span, .diagram svg .cluster-label .nodeLabel,
-.diagram svg text.actor, .diagram svg text.actor > tspan, .diagram svg .messageText, .diagram svg .labelText, .diagram svg .loopText, .diagram svg .loopText > tspan,
-.diagram svg .noteText, .diagram svg .stateLabel text, .diagram svg .titleText, .diagram svg text { color: var(--ink) !important; fill: var(--ink) !important; }
-.diagram svg .edgeLabel, .diagram svg .edgeLabel p, .diagram svg .edgeLabel span, .diagram svg .edgeLabel rect, .diagram svg .labelBkg { background-color: var(--surface) !important; fill: var(--surface) !important; color: var(--ink) !important; }
-.diagram svg .flowchart-link, .diagram svg .messageLine0, .diagram svg .messageLine1, .diagram svg .transition, .diagram svg path.path, .diagram svg .actor-line { stroke: var(--muted) !important; }
-.diagram svg .arrowheadPath, .diagram svg .arrowMarkerPath, .diagram svg marker path { fill: var(--muted) !important; stroke: var(--muted) !important; }
-.diagram svg .note, .diagram svg rect.note { fill: var(--surface-subtle) !important; stroke: var(--border-strong) !important; }
-.diagram svg .loopLine { stroke: var(--border-strong) !important; }
-.diagram svg .sequenceNumber { fill: var(--accent-ink) !important; }
-.diagram svg g.activation0 rect, .diagram svg g.activation1 rect { fill: var(--surface-subtle) !important; stroke: var(--border-strong) !important; }
-.diagram svg .grid .tick line { stroke: var(--border) !important; }
-.diagram svg .grid path { stroke: none !important; }
-.diagram svg .section0, .diagram svg .section2 { fill: var(--surface-subtle) !important; }
-.diagram svg .section1, .diagram svg .section3 { fill: var(--surface) !important; }
-.diagram svg .task { stroke: var(--accent) !important; }
-.diagram svg .done0, .diagram svg .done1, .diagram svg .done2, .diagram svg .done3 { fill: #d4d4d8 !important; stroke: #71717a !important; }
-.diagram svg .active0, .diagram svg .active1, .diagram svg .active2, .diagram svg .active3 { fill: #c7d2fe !important; stroke: var(--accent) !important; }
-.diagram svg .crit0, .diagram svg .crit1, .diagram svg .crit2, .diagram svg .crit3 { fill: var(--c-danger-bg) !important; stroke: var(--c-danger) !important; }
-.diagram svg .milestone { fill: var(--accent) !important; }
-.diagram svg text.taskText, .diagram svg text.taskTextOutsideRight, .diagram svg text.taskTextOutsideLeft { fill: var(--ink) !important; }
-.diagram svg .sectionTitle, .diagram svg .tick text { fill: var(--muted) !important; }
+/* Diagram theming: the inlined SVGs read --k-* variables; map them onto the site tokens (light and dark). */
+.diagram .dg { --k-ink: var(--ink); --k-mut: var(--muted); --k-line: var(--muted); --k-bg: var(--surface); --k-box: var(--surface); --k-bs: var(--border-strong); --k-grp: var(--surface-subtle); --k-gs: var(--border-strong); --k-acc: var(--accent-soft); --k-as: var(--accent); --k-ok: var(--st-ok-bg); --k-os: var(--c-tip); --k-warn: var(--st-warn-bg); --k-ws: var(--c-warning); --k-bad: var(--c-danger-bg); --k-bds: var(--c-danger); }
+html.dark .diagram .dg { --k-box: #202024; --k-grp: #141417; }
 
 /* ---------- Steps / tabs / details tweaks ---------- */
 .nextra-steps { border-inline-start-color: var(--border) !important; }
@@ -198,7 +174,7 @@ article table th { text-align: start; background: var(--surface-subtle); }
 .section-title { font-size: 2rem !important; letter-spacing: -0.025em; line-height: 1.2 !important; font-weight: 620; margin: 0 !important; }
 .section-sub { margin: var(--space-3) 0 var(--space-8) !important; max-width: 60ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.55; }
 .section--center { text-align: center; }
-.section--center .section-sub { margin-inline: auto; }
+.section--center .section-sub { margin-inline: auto !important; }
 @media (max-width: 899px) { .section { padding: var(--space-12) var(--space-4); } }
 
 /* ---------- Home: flow ---------- */
@@ -230,10 +206,19 @@ article table th { text-align: start; background: var(--surface-subtle); }
 
 article :where(p, li, td, dd) > a, .alpha-footer a, .hero-eyebrow a, .diagram-desc a { text-decoration: underline; text-underline-offset: 3px; }
 .diagram-canvas:focus-visible, .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.diagram-canvas svg { min-width: 640px; }
+.diagram-canvas svg { display: block; width: 100%; max-width: var(--dg-w); height: auto; margin-inline: auto; }
+@media (max-width: 899px) { .diagram { padding: var(--space-4); } .diagram-canvas svg { min-width: calc(var(--dg-w) * 0.8); } }
 
 /* Full-bleed bands on the home page */
 .hero, .section { margin-inline: calc(50% - 50vw); }
 
 .split > div { min-width: 0; }
 .split pre { overflow-x: auto; }
+
+/* Home: centre the closing band on one axis and line the footer up with the page's content column. */
+.section--center { padding-bottom: var(--space-12); }
+.section--center .section-inner { display: flex; flex-direction: column; align-items: center; }
+.section--center .section-title, .section--center .section-sub { text-align: center; max-width: 60ch; }
+.section--center .alpha-footer { width: 100%; max-width: 70ch; margin-inline: auto; text-align: center; }
+body:has(.hero) footer { max-width: calc(1120px + 2 * var(--space-4)) !important; padding-inline: var(--space-4) !important; justify-content: center !important; text-align: center; }
+body:has(.hero) div:has(> button[title="Change theme"]) { max-width: calc(1120px + 2 * var(--space-4)) !important; padding-inline: var(--space-2) !important; }

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dg" viewBox="0 0 830 644" width="830" role="img" aria-label="Provisioning sequence">
+<title>Provisioning sequence</title>
+<style>.dg{--k-ink:#18181b;--k-mut:#5b5b63;--k-line:#71717a;--k-bg:#ffffff;--k-box:#ffffff;--k-bs:#b9b9b3;--k-grp:#f4f4f2;--k-gs:#c4c4be;--k-acc:#eef2ff;--k-as:#4f46e5;--k-ok:#dcfce7;--k-os:#16a34a;--k-warn:#fef3c7;--k-ws:#d97706;--k-bad:#fef2f2;--k-bds:#dc2626}
+@media (prefers-color-scheme:dark){.dg{--k-ink:#ededef;--k-mut:#a1a1aa;--k-line:#8b8b96;--k-bg:#18181b;--k-box:#202024;--k-bs:#52525b;--k-grp:#141417;--k-gs:#3f3f46;--k-acc:rgba(129,140,248,.14);--k-as:#818cf8;--k-ok:rgba(34,197,94,.14);--k-os:#4ade80;--k-warn:rgba(245,158,11,.14);--k-ws:#fbbf24;--k-bad:rgba(239,68,68,.14);--k-bds:#f87171}}
+.dg text{font-family:var(--font-geist-sans),Geist,system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--k-ink);font-size:12.5px}
+.dg .dg-p{font-weight:560}
+.dg .dg-s{fill:var(--k-mut);font-size:11px}
+.dg .dg-l{fill:var(--k-mut);font-size:11.5px}
+.dg .dg-h{paint-order:stroke;stroke:var(--k-bg);stroke-width:5px;stroke-linejoin:round}
+.dg .dg-n{fill:var(--k-as);font-weight:650}
+.dg .dg-gt{fill:var(--k-mut);font-size:11px;font-weight:560;letter-spacing:.02em}
+.dg .dg-box{fill:var(--k-box);stroke:var(--k-bs);stroke-width:1.2}
+.dg .dg-acc{fill:var(--k-acc);stroke:var(--k-as)}
+.dg .dg-ok{fill:var(--k-ok);stroke:var(--k-os)}
+.dg .dg-warn{fill:var(--k-warn);stroke:var(--k-ws)}
+.dg .dg-bad{fill:var(--k-bad);stroke:var(--k-bds)}
+.dg .dg-grp{fill:var(--k-grp);stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:6 4}
+.dg .dg-ln{fill:none;stroke:var(--k-line);stroke-width:1.3}
+.dg .dg-dash{stroke-dasharray:6 4}
+.dg .dg-life{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}
+.dg .dg-mk{fill:var(--k-line)}
+.dg .dg-dot{fill:var(--k-line)}
+.dg .dg-bar{stroke-width:1.2}
+.dg .dg-tick{stroke:var(--k-line);stroke-width:1.2}
+.dg .dg-guide{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}</style>
+<defs><marker id="ar-prov" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path class="dg-mk" d="M0,0 L8,4 L0,8 L2,4 z"/></marker></defs>
+<line class="dg-life" x1="75" y1="64" x2="75" y2="624"/>
+<line class="dg-life" x1="245" y1="64" x2="245" y2="624"/>
+<line class="dg-life" x1="415" y1="64" x2="415" y2="624"/>
+<line class="dg-life" x1="585" y1="64" x2="585" y2="624"/>
+<line class="dg-life" x1="755" y1="64" x2="755" y2="624"/>
+<path class="dg-ln" d="M80,110 L234,110" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M250,162 L404,162" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M420,214 L574,214" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M420,266 L574,266" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M420,331 L574,331" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M420,383 L574,383" marker-end="url(#ar-prov)"/>
+<path class="dg-ln dg-dash" d="M410,422 L256,422" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M250,474 L744,474" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M750,526 L596,526" marker-end="url(#ar-prov)"/>
+<path class="dg-ln dg-dash" d="M580,565 L256,565" marker-end="url(#ar-prov)"/>
+<path class="dg-ln" d="M250,604 L744,604" marker-end="url(#ar-prov)"/>
+<text class="dg-l" x="160" y="91" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">1</tspan>  enqueue provision</text>
+<text class="dg-l" x="160" y="104" text-anchor="middle" style="fill:var(--k-ink)">(dedupe)</text>
+<text class="dg-l" x="330" y="143" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">2</tspan>  provision_site(spec,</text>
+<text class="dg-l" x="330" y="156" text-anchor="middle" style="fill:var(--k-ink)">workflow_id)</text>
+<text class="dg-l" x="500" y="195" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">3</tspan>  preflight, server,</text>
+<text class="dg-l" x="500" y="208" text-anchor="middle" style="fill:var(--k-ink)">bench_apps, create_site</text>
+<text class="dg-l" x="500" y="247" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">4</tspan>  isolate, restore golden</text>
+<text class="dg-l" x="500" y="260" text-anchor="middle" style="fill:var(--k-ink)">backup, reisolate</text>
+<text class="dg-l" x="500" y="299" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">5</tspan>  hooks: recipe, then</text>
+<text class="dg-l" x="500" y="312" text-anchor="middle" style="fill:var(--k-ink)">core.scheduler_resume,</text>
+<text class="dg-l" x="500" y="325" text-anchor="middle" style="fill:var(--k-ink)">core.maintenance_off</text>
+<text class="dg-l" x="500" y="364" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">6</tspan>  config, health checks</text>
+<text class="dg-l" x="500" y="377" text-anchor="middle" style="fill:var(--k-ink)">(12 x 10 s)</text>
+<text class="dg-l" x="330" y="416" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">7</tspan>  succeeded</text>
+<text class="dg-l" x="670" y="455" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">8</tspan>  setup email (one-time</text>
+<text class="dg-l" x="670" y="468" text-anchor="middle" style="fill:var(--k-ink)">link, 24 h)</text>
+<text class="dg-l" x="670" y="507" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">9</tspan>  set password,</text>
+<text class="dg-l" x="670" y="520" text-anchor="middle" style="fill:var(--k-ink)">finish setup</text>
+<text class="dg-l" x="330" y="559" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">10</tspan>  setup_complete</text>
+<text class="dg-l" x="670" y="598" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">11</tspan>  welcome email</text>
+<!-- Billing processor: x=10 y=20 right=140 bottom=64 -->
+<rect class="dg-box" x="10" y="20" width="130" height="44" rx="7"/>
+<text class="dg-p" x="75" y="46" text-anchor="middle">Billing processor</text>
+<!-- Provision Job: x=180 y=20 right=310 bottom=64 -->
+<rect class="dg-box" x="180" y="20" width="130" height="44" rx="7"/>
+<text class="dg-p" x="245" y="46" text-anchor="middle">Provision Job</text>
+<!-- fcctl workflow: x=350 y=20 right=480 bottom=64 -->
+<rect class="dg-box" x="350" y="20" width="130" height="44" rx="7"/>
+<text class="dg-p" x="415" y="46" text-anchor="middle">fcctl workflow</text>
+<!-- Frappe Cloud: x=520 y=20 right=650 bottom=64 -->
+<rect class="dg-box" x="520" y="20" width="130" height="44" rx="7"/>
+<text class="dg-p" x="585" y="38.5" text-anchor="middle">Frappe Cloud</text>
+<text class="dg-s" x="585" y="53.5" text-anchor="middle">(Pilot)</text>
+<!-- Owner: x=690 y=20 right=820 bottom=64 -->
+<rect class="dg-box" x="690" y="20" width="130" height="44" rx="7"/>
+<text class="dg-p" x="755" y="46" text-anchor="middle">Owner</text>
+</svg>

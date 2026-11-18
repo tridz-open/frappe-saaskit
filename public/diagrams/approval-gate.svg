@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dg" viewBox="0 0 864 430" width="864" role="img" aria-label="Approval gate flow">
+<title>Approval gate flow</title>
+<style>.dg{--k-ink:#18181b;--k-mut:#5b5b63;--k-line:#71717a;--k-bg:#ffffff;--k-box:#ffffff;--k-bs:#b9b9b3;--k-grp:#f4f4f2;--k-gs:#c4c4be;--k-acc:#eef2ff;--k-as:#4f46e5;--k-ok:#dcfce7;--k-os:#16a34a;--k-warn:#fef3c7;--k-ws:#d97706;--k-bad:#fef2f2;--k-bds:#dc2626}
+@media (prefers-color-scheme:dark){.dg{--k-ink:#ededef;--k-mut:#a1a1aa;--k-line:#8b8b96;--k-bg:#18181b;--k-box:#202024;--k-bs:#52525b;--k-grp:#141417;--k-gs:#3f3f46;--k-acc:rgba(129,140,248,.14);--k-as:#818cf8;--k-ok:rgba(34,197,94,.14);--k-os:#4ade80;--k-warn:rgba(245,158,11,.14);--k-ws:#fbbf24;--k-bad:rgba(239,68,68,.14);--k-bds:#f87171}}
+.dg text{font-family:var(--font-geist-sans),Geist,system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--k-ink);font-size:12.5px}
+.dg .dg-p{font-weight:560}
+.dg .dg-s{fill:var(--k-mut);font-size:11px}
+.dg .dg-l{fill:var(--k-mut);font-size:11.5px}
+.dg .dg-h{paint-order:stroke;stroke:var(--k-bg);stroke-width:5px;stroke-linejoin:round}
+.dg .dg-n{fill:var(--k-as);font-weight:650}
+.dg .dg-gt{fill:var(--k-mut);font-size:11px;font-weight:560;letter-spacing:.02em}
+.dg .dg-box{fill:var(--k-box);stroke:var(--k-bs);stroke-width:1.2}
+.dg .dg-acc{fill:var(--k-acc);stroke:var(--k-as)}
+.dg .dg-ok{fill:var(--k-ok);stroke:var(--k-os)}
+.dg .dg-warn{fill:var(--k-warn);stroke:var(--k-ws)}
+.dg .dg-bad{fill:var(--k-bad);stroke:var(--k-bds)}
+.dg .dg-grp{fill:var(--k-grp);stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:6 4}
+.dg .dg-ln{fill:none;stroke:var(--k-line);stroke-width:1.3}
+.dg .dg-dash{stroke-dasharray:6 4}
+.dg .dg-life{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}
+.dg .dg-mk{fill:var(--k-line)}
+.dg .dg-dot{fill:var(--k-line)}
+.dg .dg-bar{stroke-width:1.2}
+.dg .dg-tick{stroke:var(--k-line);stroke-width:1.2}
+.dg .dg-guide{stroke:var(--k-gs);stroke-width:1.2;stroke-dasharray:3 4}</style>
+<defs><marker id="ar-appr" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path class="dg-mk" d="M0,0 L8,4 L0,8 L2,4 z"/></marker></defs>
+<path class="dg-ln" d="M330,73 L330,85" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M330,153 L330,165" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M330,241 L330,253" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M330,323 L330,335" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M215,122 L131,122" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M445,122 L549,122" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M445,206 L549,206" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M445,376 L549,376" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M215,376 L131,376" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M649,203 L673,203" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M764,235 L764,247" marker-end="url(#ar-appr)"/>
+<path class="dg-ln" d="M764,311 L764,323" marker-end="url(#ar-appr)"/>
+<!-- Destructive op requested: x=220 y=20 right=440 bottom=68 -->
+<rect class="dg-box" x="220" y="20" width="220" height="48" rx="7"/>
+<text class="dg-p" x="330" y="40.5" text-anchor="middle">Destructive op requested</text>
+<text class="dg-s" x="330" y="55.5" text-anchor="middle">drop · restore · terminate</text>
+<polygon class="dg-warn" points="236,96 424,96 440,122 424,148 236,148 220,122" stroke-linejoin="round"/>
+<text class="dg-p" x="330" y="126" text-anchor="middle">Policy</text>
+<polygon class="dg-warn" points="236,176 424,176 440,206 424,236 236,236 220,206" stroke-linejoin="round"/>
+<text class="dg-p" x="330" y="202.5" text-anchor="middle">Site created by</text>
+<text class="dg-s" x="330" y="217.5" text-anchor="middle">this workflow?</text>
+<!-- File approval request: x=220 y=264 right=440 bottom=318 -->
+<rect class="dg-box" x="220" y="264" width="220" height="54" rx="7"/>
+<text class="dg-p" x="330" y="287.5" text-anchor="middle">File approval request</text>
+<text class="dg-s" x="330" y="302.5" text-anchor="middle">exit 7, expires 30 min</text>
+<polygon class="dg-warn" points="236,346 424,346 440,376 424,406 236,406 220,376" stroke-linejoin="round"/>
+<text class="dg-p" x="330" y="372.5" text-anchor="middle">Second person approves?</text>
+<text class="dg-s" x="330" y="387.5" text-anchor="middle">approver ≠ requester</text>
+<!-- Denied: x=20 y=100 right=120 bottom=144 -->
+<rect class="dg-bad" x="20" y="100" width="100" height="44" rx="7"/>
+<text class="dg-p" x="70" y="118.5" text-anchor="middle">Denied</text>
+<text class="dg-s" x="70" y="133.5" text-anchor="middle">exit 4</text>
+<!-- Expired or: x=20 y=350 right=120 bottom=402 -->
+<rect class="dg-bad" x="20" y="350" width="100" height="52" rx="7"/>
+<text class="dg-p" x="70" y="372.5" text-anchor="middle">Expired or</text>
+<text class="dg-s" x="70" y="387.5" text-anchor="middle">denied</text>
+<!-- Execute: x=560 y=96 right=644 bottom=406 -->
+<rect class="dg-ok" x="560" y="96" width="84" height="310" rx="7"/>
+<text class="dg-p" x="602" y="255" text-anchor="middle">Execute</text>
+<!-- Journal: dispatching: x=684 y=176 right=844 bottom=230 -->
+<rect class="dg-box" x="684" y="176" width="160" height="54" rx="7"/>
+<text class="dg-p" x="764" y="199.5" text-anchor="middle">Journal: dispatching</text>
+<text class="dg-s" x="764" y="214.5" text-anchor="middle">fsync first</text>
+<!-- Call Frappe Cloud: x=684 y=258 right=844 bottom=306 -->
+<rect class="dg-box" x="684" y="258" width="160" height="48" rx="7"/>
+<text class="dg-p" x="764" y="286" text-anchor="middle">Call Frappe Cloud</text>
+<!-- Hash-chained: x=684 y=334 right=844 bottom=388 -->
+<rect class="dg-box" x="684" y="334" width="160" height="54" rx="7"/>
+<text class="dg-p" x="764" y="357.5" text-anchor="middle">Hash-chained</text>
+<text class="dg-s" x="764" y="372.5" text-anchor="middle">audit entry</text>
+<text class="dg-l" x="340" y="166" text-anchor="start">guarded</text>
+<text class="dg-l" x="340" y="254" text-anchor="start">no</text>
+<text class="dg-l" x="170" y="93" text-anchor="middle">read_only /</text>
+<text class="dg-l" x="170" y="106" text-anchor="middle">protected</text>
+<text class="dg-l" x="500" y="112" text-anchor="middle">full</text>
+<text class="dg-l" x="500" y="188" text-anchor="middle">yes (journal</text>
+<text class="dg-l" x="500" y="201" text-anchor="middle">proves it)</text>
+<text class="dg-l" x="500" y="366" text-anchor="middle">yes</text>
+<text class="dg-l" x="170" y="353" text-anchor="middle">no /</text>
+<text class="dg-l" x="170" y="366" text-anchor="middle">expired</text>
+</svg>

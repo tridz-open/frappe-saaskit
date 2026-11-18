@@ -205,7 +205,9 @@ function render(n, ctx) {
     case 'Diagram': {
       const cap = str(n, 'caption')
       const desc = str(n, 'description')
-      return `\n\n${tidy(kids())}\n\n${cap ? `*${cap}*\n\n` : ''}${desc ? `Text description: ${desc}\n\n` : ''}`
+      const src = str(n, 'src')
+      const img = src ? `![${str(n, 'title')}](${ctx.site}/diagrams/${src}.svg)` : tidy(kids())
+      return `\n\n${img}\n\n${cap ? `*${cap}*\n\n` : ''}${desc ? `Text description: ${desc}\n\n` : ''}`
     }
     case 'VersionTable':
       return `\n\n${dataTable(str(n, 'data', 'versions'))}\n\n`
