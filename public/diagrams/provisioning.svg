@@ -46,7 +46,7 @@
 <text class="dg-l" x="330" y="156" text-anchor="middle" style="fill:var(--k-ink)">workflow_id)</text>
 <text class="dg-l" x="500" y="195" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">3</tspan>  preflight, server,</text>
 <text class="dg-l" x="500" y="208" text-anchor="middle" style="fill:var(--k-ink)">bench_apps, create_site</text>
-<text class="dg-l" x="500" y="247" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">4</tspan>  isolate, restore golden</text>
+<text class="dg-l" x="500" y="247" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">4</tspan>  isolate, restore template</text>
 <text class="dg-l" x="500" y="260" text-anchor="middle" style="fill:var(--k-ink)">backup, reisolate</text>
 <text class="dg-l" x="500" y="299" text-anchor="middle" style="fill:var(--k-ink)"><tspan class="dg-n">5</tspan>  hooks: recipe, then</text>
 <text class="dg-l" x="500" y="312" text-anchor="middle" style="fill:var(--k-ink)">core.scheduler_resume,</text>

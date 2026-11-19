@@ -1,13 +1,15 @@
 ---
-title: Golden backup
-description: "What a golden backup is in Frappe SaaS: the three backup_source shapes, integrity checks, cross-server restore and how to make one."
+title: Template site
+description: "What a template site is in Frappe SaaS: the three backup_source shapes, integrity checks, cross-server restore and how to make one."
 ---
 
-# Golden backup
+# Template site
 
-<p className="lede">Every new tenant starts as a restore of a golden backup: a prepared site you snapshot once and clone per customer.</p>
+<p className="lede">Every new tenant starts as a restore of your template site: a prepared site you snapshot once and clone per customer.</p>
 
-## Why a golden backup
+The backup of the template site is what a Template's `backup_source` points at. This page was previously called "golden backup"; the idea has precedent in Postgres template databases, WordPress multisite site templates and the DevOps "golden image".
+
+## Why a template site
 
 New sites are restored from a prepared site instead of installing apps from scratch for every tenant, so they arrive fast, identical and pre-configured.
 
@@ -17,14 +19,14 @@ New sites are restored from a prepared site instead of installing apps from scra
   <Tabs.Tab>
 
 ```json
-{"profile": "gold", "server": "srv-1", "site": "golden.example.com", "ts": "20260101_000000"}
+{"profile": "gold", "server": "srv-1", "site": "template.example.com", "ts": "20260101_000000"}
 ```
 
   </Tabs.Tab>
   <Tabs.Tab>
 
 ```json
-{"bucket": "acme-backups", "prefix": "golden/acme-v16/20260101_000000",
+{"bucket": "acme-backups", "prefix": "templates/acme-v16/20260101_000000",
  "manifest": {"parts": [{"name": "database.sql.gz", "sha256": "..."}]}}
 ```
 
@@ -32,7 +34,7 @@ New sites are restored from a prepared site instead of installing apps from scra
   <Tabs.Tab>
 
 ```json
-{"bucket": "acme-backups", "prefix": "golden/acme-v16/20260101_000000", "manifest": "golden/acme-v16/manifest.json"}
+{"bucket": "acme-backups", "prefix": "templates/acme-v16/20260101_000000", "manifest": "templates/acme-v16/manifest.json"}
 ```
 
   </Tabs.Tab>
@@ -50,7 +52,7 @@ fcctl streams the backup files into a chunked upload on the target, one 8 MiB ch
 
 <Steps>
 
-### Build a reference site
+### Build the template site
 
 Install your apps and seed data on a site.
 
@@ -73,7 +75,7 @@ Provision a throwaway tenant from it.
 <Badge status="untested" /> This procedure is not documented end to end upstream. Try it on throwaway sites.
 
 > [!WARNING]
-> A golden backup is copied into every tenant. Never leave real customer data, live keys or personal accounts in it.
+> A template site backup is copied into every tenant. Never leave real customer data, live keys or personal accounts in it.
 
 Sources: [docs/TEMPLATES.md](https://github.com/tridz-open/saas_core/blob/main/docs/TEMPLATES.md), [README](https://github.com/tridz-open/saas_core#readme), [fcctl ARCHITECTURE.md §4](https://github.com/tridz-open/fcctl/blob/main/docs/ARCHITECTURE.md).
 

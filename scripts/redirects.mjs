@@ -3,5 +3,6 @@ export const REDIRECTS = {
   'writing-a-recipe': 'guides/writing-a-recipe',
   'local-demo': 'guides/local-demo',
   payments: 'guides/payments',
-  versions: 'status/versions'
+  versions: 'status/versions',
+  'concepts/golden-backup': 'concepts/template-site'
 }

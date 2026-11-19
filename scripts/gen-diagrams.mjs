@@ -214,7 +214,7 @@ function seq(id, title, W, parts, items, { boxW = 130, startY = 20 } = {}) {
     { from: 0, to: 1, lines: ['enqueue provision', '(dedupe)'] },
     { from: 1, to: 2, lines: ['provision_site(spec,', 'workflow_id)'] },
     { from: 2, to: 3, lines: ['preflight, server,', 'bench_apps, create_site'] },
-    { from: 2, to: 3, lines: ['isolate, restore golden', 'backup, reisolate'] },
+    { from: 2, to: 3, lines: ['isolate, restore template', 'backup, reisolate'] },
     { from: 2, to: 3, lines: ['hooks: recipe, then', 'core.scheduler_resume,', 'core.maintenance_off'] },
     { from: 2, to: 3, lines: ['config, health checks', '(12 x 10 s)'] },
     { from: 2, to: 1, lines: ['succeeded'], dashed: true },

@@ -1,6 +1,6 @@
 ---
 title: Concepts
-description: "The nouns behind Frappe SaaS: tenants, plans, subscriptions, provisioning, golden backups, recipes, gateways and approvals."
+description: "The nouns behind Frappe SaaS: tenants, plans, subscriptions, provisioning, template sites, recipes, gateways and approvals."
 ---
 
 # Concepts
@@ -12,12 +12,12 @@ description: "The nouns behind Frappe SaaS: tenants, plans, subscriptions, provi
   <Cards.Card title="Plans and prices" href="/concepts/plans/" icon={<Icon name="Wallet" />}>What a customer buys, per interval and currency.</Cards.Card>
   <Cards.Card title="Subscriptions" href="/concepts/subscriptions/" icon={<Icon name="RefreshCw" />}>Ties a tenant to a plan and a gateway.</Cards.Card>
   <Cards.Card title="Provisioning" href="/concepts/provisioning/" icon={<Icon name="Cloud" />}>Turns a paid tenant into a running site, resume-safe.</Cards.Card>
-  <Cards.Card title="Golden backup" href="/concepts/golden-backup/" icon={<Icon name="Layers" />}>A prepared site you snapshot once and clone per customer.</Cards.Card>
+  <Cards.Card title="Template site" href="/concepts/template-site/" icon={<Icon name="Layers" />}>A prepared site you snapshot once and clone per customer.</Cards.Card>
   <Cards.Card title="Templates and recipes" href="/concepts/recipes/" icon={<Icon name="Puzzle" />}>What a site is, plus optional code to customise it.</Cards.Card>
   <Cards.Card title="Payment gateways" href="/concepts/gateways/" icon={<Icon name="Plug" />}>A pluggable class; billing never imports a provider.</Cards.Card>
   <Cards.Card title="Approvals" href="/concepts/approvals/" icon={<Icon name="ShieldCheck" />}>Destructive operations wait for a second person.</Cards.Card>
 </Cards>
 
-A **Plan** points at a **Template**; checkout creates a **Tenant** and a **Subscription**; a paid event starts a **Provision Job** that restores the **golden backup** and runs the **recipe** hooks; destructive jobs wait for an **Approval**.
+A **Plan** points at a **Template**; checkout creates a **Tenant** and a **Subscription**; a paid event starts a **Provision Job** that restores the **template site** and runs the **recipe** hooks; destructive jobs wait for an **Approval**.
 
 <AlphaFooter repo="saas_core" />
