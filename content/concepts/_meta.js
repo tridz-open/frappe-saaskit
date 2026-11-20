@@ -1,1 +1,1 @@
-export default { index: 'Overview', tenants: 'Tenants', plans: 'Plans & prices', subscriptions: 'Subscriptions', provisioning: 'Provisioning', 'golden-backup': 'Golden backup', recipes: 'Templates & recipes', gateways: 'Payment gateways', approvals: 'Approvals' }
+export default { index: 'Overview', tenants: 'Tenants', plans: 'Plans & prices', subscriptions: 'Subscriptions', provisioning: 'Provisioning', 'template-site': 'Template site', recipes: 'Templates & recipes', gateways: 'Payment gateways', approvals: 'Approvals' }

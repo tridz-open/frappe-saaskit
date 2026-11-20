@@ -17,7 +17,7 @@ description: "Frappe SaaS templates and recipes: template fields, ordered hooks,
 | `min_plan` | Lowest plan allowed to use the template |
 | `recipe` | Name of a registered recipe |
 | `apps` | Rows `{app, source_repo, branch, version, install_order}`; at least one, no duplicates |
-| `backup_source` | Golden site to restore from. Empty means a fresh site. See [Golden backup](/concepts/golden-backup/) |
+| `backup_source` | Backup of the template site to restore from. Empty means a fresh site. See [Template site](/concepts/template-site/) |
 | `hooks` | Ordered `[{name, version, args}]`, run after restore |
 | `site_admin` | Hooks receive `ctx.site_admin`. Required when a recipe hook uses it |
 | `sanitize_config` | Passed to the post-restore sanitize step |

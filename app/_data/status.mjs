@@ -5,7 +5,7 @@ export const statusRows = [
   { area: 'Branded transactional email over SMTP', status: 'verified', gate: '', note: 'Tenant-setup and beta-invite mails are live; billing mails (renewal receipt, refund, cancellation) are template-rendered in tests only.' },
   { area: 'Razorpay order-mode checkout and payment capture', status: 'verified', gate: '', note: 'Includes `checkout.verify_payment`.' },
   { area: 'Razorpay webhooks, including `payment_link.paid`', status: 'verified', gate: '', note: '' },
-  { area: 'Provisioning on Frappe Cloud from a golden backup', status: 'verified', gate: '', note: 'fcctl workflow, hooks, release, health.' },
+  { area: 'Provisioning on Frappe Cloud from a template site', status: 'verified', gate: '', note: 'fcctl workflow, hooks, release, health.' },
   { area: 'Cancel with day-based pro-rata refund', status: 'verified', gate: '', note: 'The only cancel path.' },
   { area: 'Plan upgrade (payment link)', status: 'verified', gate: '', note: '' },
   { area: 'Template validation', status: 'verified', gate: '', note: '' },

@@ -1,9 +1,9 @@
 ---
 title: Frappe SaaS
-description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, golden-backup provisioning and a customer console. Three open-source alpha repos."
+description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, template-site provisioning and a customer console. Three open-source alpha repos."
 ---
 
-<Hero eyebrow="Alpha · v0.1.0" eyebrowLink={{label: 'Read the status', href: '/status/'}} title="Sell your Frappe app as SaaS." sub="Customers sign up, pay, and get their own Frappe site on Frappe Cloud, built automatically from your golden backup. Billing, provisioning and a customer console, open source." primary={{label: 'Get started', href: '/getting-started/'}} secondary={{label: 'Run the local demo', href: '/guides/local-demo/', icon: 'Terminal'}} note="browser → starter → saas_core → fcctl → Frappe Cloud">
+<Hero eyebrow="Alpha · v0.1.0" eyebrowLink={{label: 'Read the status', href: '/status/'}} title="Sell your Frappe app as SaaS." sub="Customers sign up, pay, and get their own Frappe site on Frappe Cloud, built automatically from your template site. Billing, provisioning and a customer console, open source." primary={{label: 'Get started', href: '/getting-started/'}} secondary={{label: 'Run the local demo', href: '/guides/local-demo/', icon: 'Terminal'}} note="browser → starter → saas_core → fcctl → Frappe Cloud">
 <Screenshot name="landing" alt="Frappe SaaS starter landing page for a Frappe app sold as SaaS" frame="browser" priority />
 <Screenshot name="provisioning-in-progress" alt="Provisioning progress with per-step status" frame="browser" overlay />
 </Hero>
@@ -12,7 +12,7 @@ description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, g
 <Flow steps={[
   {icon:'UserPlus', title:'Sign up', body:'Your starter app collects the account. Signup can be open, invite-only or allowlisted.'},
   {icon:'CreditCard', title:'Pay', body:'Checkout runs through a pluggable gateway. Each payment is recorded exactly once.'},
-  {icon:'Server', title:'Provision', body:'saas_core starts a job; fcctl restores your golden backup into a new Frappe Cloud site.'},
+  {icon:'Server', title:'Provision', body:'saas_core starts a job; fcctl restores your template site backup into a new Frappe Cloud site.'},
   {icon:'MailCheck', title:'Hand over', body:'Health checks pass, then the owner gets a one-time setup link.'},
   {icon:'RefreshCw', title:'Renew or cancel', body:'Monthly in advance. Cancel any day; unused whole days are refunded.'}
 ]} />
@@ -20,7 +20,7 @@ description: "Launch your Frappe app as SaaS on Frappe Cloud: signup, billing, g
 
 <Section tone="subtle" title="Everything between &quot;Buy&quot; and a live site">
 <FeatureGrid cols={3}>
-  <Feature icon="Layers" title="Golden-backup provisioning">Every tenant is restored from a prepared site, then your hooks run and health checks confirm it is up.</Feature>
+  <Feature icon="Layers" title="Template-site provisioning">Every tenant is restored from a prepared site, then your hooks run and health checks confirm it is up.</Feature>
   <Feature icon="Wallet" title="Fair, day-based billing">Monthly in advance, accounted per IST day. Refunds round down, charges round up, always in whole minor units.</Feature>
   <Feature icon="Plug" title="Pluggable gateways">Razorpay is verified. Stripe is experimental. Add your own gateway from your own app.</Feature>
   <Feature icon="ShieldCheck" title="Approval gates">Dropping a site or restoring a backup waits for a second person. Every action lands in a hash-chained audit log.</Feature>
